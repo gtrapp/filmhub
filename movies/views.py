@@ -21,8 +21,36 @@ def profile(request, profile):
 
 
 def search(request):
-    return render(request, "movies/search.html")
 
+        # Default route (e.g. if accessed via a hyperlink)
+    if request.method == "GET":
+        return render(request, "movies/search.html")
+
+    # If accessed via form submission (POST)
+    elif request.method == "POST":
+
+        # Search PQs using Parliament's API and user-provided search term (question ID)
+        keyword = request.POST["keyword"]
+
+        url = "https://www.omdbapi.com/?apikey=91050fbc&s=" + keyword
+
+        print(url)
+
+        movies = []
+
+        response = requests.get(url)
+        jsonResponse = response.json()
+        # movies = jsonResponse["results"]
+        movies = jsonResponse["movies"]
+
+# Add dictionary item to list
+        # entry.update({'id': questionID, 'subject': questionSubject, 'answered': questionAnswered, 'bookmarked': isBookmarked})
+        # results.append(entry)
+    print(movies)
+    return render(request, "movies/search.html", {
+        "movies": movies,
+    
+        })
 
 
 # Log user in
