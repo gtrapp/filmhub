@@ -1,0 +1,71 @@
+{% extends "movies/layout.html" %}
+{% load static %}
+{% block body %}
+
+<body onload="startTime(), isSitting()">
+
+  <div class="container ">
+    <div class="row text-center pt-4">
+      <h1 id="time"></h1>
+    </div>
+    <div class="row text-center pb-5">
+      <h6 id="date"></h6>
+    </div>
+  </div>
+
+  <div class="container px-4" align="center">
+    <h1>Film Club</h1>
+    <!-- <div class="row gx-5">
+      <div class="col bg-light">
+        <div class="row">
+          <div class="p-5">
+            <img id="liveCommons" src="{% static 'movies/media/portcullisIcon.svg' %}" height="100" width="100"
+              style="background: #006548">
+          </div>
+        </div>
+        <div class="row">
+          <div class="p-1">
+            <h3>House of Commons<h3>
+          </div>
+        </div>
+        <div class="row">
+          <h5>
+            <div class="p-1 bg-light pb-4" id="commonsSitting"></div>
+          </h5>
+        </div>
+      </div>
+      <div class="col-1 d-none d-sm-block">
+      </div>
+      <div class="col bg-light">
+        <div class="row">
+          <div class="p-5">
+            <img id="liveLords" src="{% static 'parlio/media/portcullisIcon.svg' %}" height="100" width="100"
+              style="background: #9D0830">
+          </div>
+        </div>
+        <div class="row">
+          <div class="p-1">
+            <h3>House of Lords<h3>
+          </div>
+        </div>
+        <div class="row">
+          <h5>
+            <div class="p-1 pb-4" id="lordsSitting"></div>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center pt-5">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="sound">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Enable Sound</label>
+      </div>
+    </div> -->
+  </div>
+
+
+  
+
+  
+
+  {% endblock %}

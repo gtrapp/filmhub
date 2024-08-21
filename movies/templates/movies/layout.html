@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>FILM HUB</title>
+  <link rel="stylesheet" href="{% static 'movies/styles.css' %}" />
+  <link rel="icon" href="{% static 'movies/media/favicon.png' %}" />
+</head>
+
+<body>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand abs" href="{% url 'index' %}"><img src="{% static 'movies/media/film-camera.png' %}" alt=""
+          height="55"></a>
+
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="collapseNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'search' %}">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Top Rated</a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ms-auto">
+            
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="""><strong>{{ user.username }}</strong>
+                <sup><span class="badge badge-pill badge-danger" id="notifications"></span></sup></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}"> Log In</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+    </div>
+  </nav>
+
+  <div class="body">
+    <br>
+    {% block body %}
+    {% endblock %}
+  </div>
+
+  <div class="clear"></div>
+
+  <footer class="footer mt-auto py-3 bg-light fixed-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <i><a href="https://linkedin.com/in/georgetrapp/" class="text-decoration-none text-secondary">CS50W George Trapp</a></i>
+        </div>
+        <div class="col">
+          <img src="{% static 'movies/media/filmstrip.jpg' %}" class="rounded mx-auto d-block" alt="" height="30">
+        </div>
+        <div class="col text-right">
+          <i><a href="https://cs50.harvard.edu/web/2020/projects/final/capstone/" class="text-decoration-none text-secondary">2024 Final Capstone Project</a></i>
+        </div>
+  </footer>
+
+</body>
+</html>
