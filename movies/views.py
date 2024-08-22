@@ -29,28 +29,72 @@ def search(request):
     # If accessed via form submission (POST)
     elif request.method == "POST":
 
-        # Search PQs using Parliament's API and user-provided search term (question ID)
+        # Search OMDb API  user-provided search term (keyword)
         keyword = request.POST["keyword"]
 
         url = "https://www.omdbapi.com/?apikey=91050fbc&s=" + keyword
-
-        print(url)
-
-        movies = []
+        
+        # OMDb API response
+        results = []
 
         response = requests.get(url)
         jsonResponse = response.json()
-        # movies = jsonResponse["results"]
-        movies = jsonResponse["movies"]
+        movies = jsonResponse["Search"]
 
-# Add dictionary item to list
-        # entry.update({'id': questionID, 'subject': questionSubject, 'answered': questionAnswered, 'bookmarked': isBookmarked})
-        # results.append(entry)
-    print(movies)
-    return render(request, "movies/search.html", {
-        "movies": movies,
+        for movie in movies:
+
+            entry = {}
+
+            entry.update({'id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
+
+            results.append(entry)
+
+
+        if not movies:
+            return render(request, "movies/search.html", {
+                "message": "No movies found."
+            })
+        elif movies:
+            return render(request, "movies/search.html", {
+                "movies": results,
+                "keyword": keyword
+            })
+
+
+def details(request, id):
+    print("Debug - id: ", id)
+
+    # Get movie details
+    # url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
+
+    url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
     
-        })
+    print("Debug - url: ", url)
+
+    result = []
+
+    response = requests.get(url)
+    jsonResponse = response.json()
+    movie = jsonResponse
+
+
+    print("Debug - movie: ", movie)
+    
+    attributes = {}
+    
+    
+    if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes']}) 
+        # attributes.update({'imdbID': item['imdbID'], 'title': item['Title'], 'year': item['Year'], 'plot': item['Plot'], 'poster': item['Poster'], 'type': item['Type']}) 
+        # 
+    result = result.append(attributes)
+
+    print("Debug - attributes: ", attributes)   
+    print("Debug - result: ", result)
+
+    return render(request, "movies/details.html", {
+        "item": attributes
+    })
+
 
 
 # Log user in
@@ -72,6 +116,7 @@ def login_view(request):
             })
     else:
         return render(request, "movies/login.html")
+
 
 
 # Log user out

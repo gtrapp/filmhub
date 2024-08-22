@@ -8,62 +8,51 @@
   <div class="row pt-4">
     <div class="col-4"></div>
     <div class="col-4">
-      <form action="{% url 'search' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          {% comment %}
-          <input
-            class="form-control"
-            type="text"
-            name="questionId"
-            placeholder="{{questionId}}"
-          />
-          {% endcomment %}
-          <input
-            autofocus
-            class="form-control"
-            type="text"
-            name="keyword"
-            placeholder="Search"
-          />
-        </div>
-        <br />
-        <input class="btn btn-primary" type="submit" value="Search" />
-      </form>
+        
+        <form action="{% url 'search' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputEmail1">Enter keyword: </label>
+              <input class="form-control" type="text" name="keyword" placeholder={{keyword}}>
+              <small class="form-text text-muted">Enter keyword</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          
     </div>
     <div class="col-4"></div>
   </div>
 </div>
+
+
+
+<h1>Search term: "{{keyword}}"</h1>
+
+
+
+
+
 {% if movies %}
 
-<h1>Movies with the keyword "jaws"</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    
+    
+        {% for movie in movies %}
 
-{% for movie in movies %} 
-{% for key, value in movie.items %}
+        <div class="card m-3 text-center" style="width: 18rem">
+            <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
+            <div class="card-body">
+                <h5 class="card-title">{{movie.title}}</h5>
+                <h5 class="card-subtitle mb-2 text-muted">{{movie.year}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{movie.type}}</h6>
+                <a href="{% url 'details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">View</a>
+            </div>
+        </div>
+        {% endfor %} 
+    
+</div>
 
-<div class="card" style="width: 18rem">
-  <img
-    class="card-img-top"
-    src="https://m.media-amazon.com/images/M/MV5BN2U1MWE1NTMtYjQ2ZC00MTFmLWFmYjItODMyNGYxOTAyZmEzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
-    alt="Card image cap"
-  />
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-muted">1976</h6>
-    <a href="#" class="btn btn-primary">More</a>
-  </div>
-  <!-- </div>
-<table class="table text-center align-middle">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Year</th>
-            <th scope="col">Poster</th>
-            <th scope="col">Released</th>
-            <th scope="col">View</th>
-        </tr> -->
 
-  {% endfor %} {% endfor %} 
   
   {% endif %} 
   {% endblock %}
