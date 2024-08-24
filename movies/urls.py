@@ -9,5 +9,8 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("search", views.search, name="search"),
     path("details/<str:id>", views.details, name="details"),
+    
+    # API routes
+    path("like/<str:movie_id>", views.like, name="like")
 
 ]

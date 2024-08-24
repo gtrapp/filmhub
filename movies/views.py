@@ -96,6 +96,38 @@ def details(request, id):
     })
 
 
+def like(request, movie_id):
+
+    # Debug: print("Debug | Like function")
+
+    # Get user and relevant movie
+    user = User.objects.get(id=request.user.id)
+    # movie = Movie.objects.get(id=movie_id)
+    imdbID = request.POST.get( movie_id)
+
+    print("Debug | user: ", user)
+    print("Debug | movie_id: ", imdbID)
+    
+    add_movie = Movie(
+        imdb_id = imdbID,
+        like_by = user
+     )
+
+    add_movie.save()
+    # print("Debug | movie: ", movie)
+
+    # # If user likes movie unlike (and vice versa)
+    # if user in movie.like.all():
+    #     # print("Debug | User already likes this movie - unliking now")
+    #     movie.like.remove(user)
+
+    # else:
+    #     # print("Debug: user does not yet like this movie - liking now")
+    #     movie.like.add(user)
+
+    return JsonResponse({"message": "Post liked / disliked"})
+
+
 
 # Log user in
 def login_view(request):
