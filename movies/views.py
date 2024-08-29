@@ -127,6 +127,22 @@ def like(request, movie_id):
 
     return JsonResponse({"message": "Post liked / disliked"})
 
+def add_mylist(request, id):
+    print("Debug - add_mylist: ", id)
+    Movie_data = Movie.objects.get(pk=id)
+    current_user = request.user
+    Movie_data.watchlist.add(current_user)
+    return HttpResponseRedirect(reverse("_details", args=(id, )))
+    # return render(request, "movies/add_mylist.html")
+
+def remove_mylist(request, id):
+    print("Debug - remove_mylist: ", id)
+    # return render(request, "movies/remove_mylist.html")
+
+def mylist(request, id):
+    print("Debug - mylist: ", id)
+    # def add_mylist(request):
+    #     return render(request, "movies/add_mylist.html")
 
 
 # Log user in
@@ -148,7 +164,6 @@ def login_view(request):
             })
     else:
         return render(request, "movies/login.html")
-
 
 
 # Log user out

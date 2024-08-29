@@ -12,7 +12,7 @@ class Movie(models.Model):
     year = models.CharField(max_length=100)
     poster = models.CharField(max_length=1000)
     type = models.CharField(max_length=100)
-    like = models.ManyToManyField(User, blank=True, related_name='likes')
+    mylist = models.ManyToManyField(User, blank=True, related_name='_mylist')
 
     def __str__(self):
         return f"{self.title} ({self.year})"

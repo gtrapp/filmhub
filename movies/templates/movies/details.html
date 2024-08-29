@@ -36,12 +36,21 @@
           
           
           <!-- If user likes post, show like button as red; otherwise grey  -->
-          {% if user.username in post.like.all|stringformat:'s' %}
+          <!-- {% if user.username in post.like.all|stringformat:'s' %}
           <button class="btn btn-danger float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
           {% else %}
           <button class="btn btn-secondary float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
-          {% endif %}
-
+          {% endif %} --> 
+          {% if in_watchlist %}
+          <form action="{% url '_remove_mylist' id=item.imdbID %}" method="POST">
+              <button type="submit" class="btn btn-danger">Remove From My List</button>
+          </form>
+      {% else %}
+          <form action="{% url '_add_mylist' id=item.imdbID %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">Add To My List</button>
+          </form>
+      {% endif %}
           <h5 class="card-subtitle mb-2 text-muted">{{item.year}}</h5>
           <h5 class="card-subtitle mb-2 text-muted">{{item.rated}}</h5>
           <h5 class="card-subtitle mb-2 text-muted">{{item.released}}</h5>
