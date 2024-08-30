@@ -69,7 +69,7 @@ def details(request, id):
 
     url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
     
-    print("Debug - url: ", url)
+    # print("Debug - url: ", url)
 
     result = []
 
@@ -77,19 +77,17 @@ def details(request, id):
     jsonResponse = response.json()
     movie = jsonResponse
 
-
-    print("Debug - movie: ", movie)
+    # print("Debug - movie: ", movie)
     
     attributes = {}
-    
     
     if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes']}) 
         # attributes.update({'imdbID': item['imdbID'], 'title': item['Title'], 'year': item['Year'], 'plot': item['Plot'], 'poster': item['Poster'], 'type': item['Type']}) 
         # 
     result = result.append(attributes)
 
-    print("Debug - attributes: ", attributes)   
-    print("Debug - result: ", result)
+    # print("Debug - attributes: ", attributes)   
+    # print("Debug - result: ", result)
 
     return render(request, "movies/details.html", {
         "item": attributes
@@ -135,29 +133,34 @@ def like(request, movie_id):
     # return HttpResponseRedirect(reverse("_details", args=(id, )))
     # return render(request, "movies/add_mylist.html")
 
-def add_mylist(request, id):
-    if request.method == "GET":
-        return render(request, "movies/details.html", {
-        })
-    else:
-        poster = request.POST["poster"]
-        title = request.POST["title"]
-        year = request.POST["year"]
-
-        my_list = Movie(
-            poster=poster,
-            title=title,
-            year=year
-        )
-        print("Debug - current_user: ", current_user)
+def add_mylist(request):
+    print("Debug - add_mylist id: ", id)
+    # if request.method == "GET":
+    #     return render(request, "movies/details.html", {
+    #     })
+    # else:
+    imdb_id = request.POST["imdbID"]
+    print("Debug - imdb_id: ", imdb_id)
+    #     poster = request.POST["poster"]
+    #     title = request.POST["title"]
+    #     year = request.POST["year"]
+    #     print("Debug - imdb_id: ", imdb_id)
+        # my_list = Movie(
+        #     imdb_id=imdb_id,
+        #     poster=poster,
+        #     title=title,
+        #     year=year
+        # )
+        # print("Debug - current_user: ", current_user)
         # my_list.save()
         # return HttpResponseRedirect(reverse(index))
-    print("Debug - current_usert: ", current_user)
-    
-    movie_data = Movie.objects.get(pk=id)
-    current_user = request.user
-    movie_data.mylist.add(current_user)
-    return HttpResponseRedirect(reverse("detai", args=(id, )))
+    # print("Debug - current_usert: ", current_user)
+    # movie_id = Movie.objects.get(pk=id)
+    # print("Debug - movie_id: ", movie_id)
+    # movie_data = Movie.objects.get(pk=id)
+    # current_user = request.user
+    # movie_data.mylist.add(current_user)
+    return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
 
 
 def remove_mylist(request, id):

@@ -8,7 +8,7 @@
    <div class="row pt-4">
       <div class="col-4"></div>
       <div class="col-4">
-
+         
       </div>
       <div class="col-4"></div>
    </div>
@@ -34,11 +34,12 @@
             <button type="submit" class="btn btn-danger">Remove From My List</button>
          </form>
          {% else %}
-         <form action="{% url '_add_mylist' id=item.imdbID %}" method="POST">
+         <form action="{% url '_add_mylist' %}" method="POST">
                {% csrf_token %}
-                   <input type="text" name="poster" class="form-control" id="poster" value="{{item.poster}}">
-                   <input type="text" name="title" class="form-control" id="title" value="{{item.title}}">
-                   <input type="text" name="year" class="form-control" id="year" value="{{item.year}}">
+                  <input type="text" name="imdbID" class="form-control" id="imdbID" value="{{item.imdbID}}">
+                  <input type="text" name="poster" class="form-control" id="poster" value="{{item.poster}}">
+                  <input type="text" name="title" class="form-control" id="title" value="{{item.title}}">
+                  <input type="text" name="year" class="form-control" id="year" value="{{item.year}}">
             <button type="submit" class="btn btn-success">Add To My List</button>
          </form>
          {% endif %}
