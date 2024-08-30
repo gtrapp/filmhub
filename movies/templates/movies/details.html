@@ -1,127 +1,120 @@
 {% extends "movies/layout.html" %} {% block body %} {% load static %}
 
 <div class="d-flex p-4 justify-content-center">
-  <h1><b>Movie Details</b></h1>
+   <h1><b>Movie Details</b></h1>
 </div>
 
 <div class="container">
-  <div class="row pt-4">
-    <div class="col-4"></div>
-    <div class="col-4">
-        
+   <div class="row pt-4">
+      <div class="col-4"></div>
+      <div class="col-4">
 
-          
-    </div>
-    <div class="col-4"></div>
-  </div>
+      </div>
+      <div class="col-4"></div>
+   </div>
 </div>
-
-
 <a href="javascript:history.back()">Back to results</a>
 <!-- <a href="{% url 'search' %}">Back</a> -->
-
-
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    
 </div>
-
 <div class="d-flex p-4 justify-content-center">
-    
-
-
-  <div class="card m-3" style="width: 80%" data-id="{{item.imdbID}}">
+   <div class="card m-3" style="width: 80%" data-id="{{item.imdbID}}">
       <img class="card-img-top text-center" src="{{item.poster}}" alt="{{item.title}}" style="width: 20rem" />
       <div class="card-body">
-          <h2 class="card-title">{{item.title}}</h2>
-          
-          
-          <!-- If user likes post, show like button as red; otherwise grey  -->
-          <!-- {% if user.username in post.like.all|stringformat:'s' %}
+         <h2 class="card-title">{{item.title}}</h2>
+
+         <!-- If user likes post, show like button as red; otherwise grey  -->
+         <!-- {% if user.username in post.like.all|stringformat:'s' %}
           <button class="btn btn-danger float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
           {% else %}
           <button class="btn btn-secondary float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
-          {% endif %} --> 
-          {% if in_watchlist %}
-          <form action="{% url '_remove_mylist' id=item.imdbID %}" method="POST">
-              <button type="submit" class="btn btn-danger">Remove From My List</button>
-          </form>
-      {% else %}
-          <form action="{% url '_add_mylist' id=item.imdbID %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-success">Add To My List</button>
-          </form>
-      {% endif %}
-          <h5 class="card-subtitle mb-2 text-muted">{{item.year}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.rated}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.released}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.runtime}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.genre}}</h5>
+          {% endif %} -->
+         {% if in_watchlist %}
+         <form action="{% url '_remove_mylist' %}" method="POST">
+            <button type="submit" class="btn btn-danger">Remove From My List</button>
+         </form>
+         {% else %}
+         <form action="{% url '_add_mylist' id=item.imdbID %}" method="POST">
+               {% csrf_token %}
+                   <input type="text" name="poster" class="form-control" id="poster" value="{{item.poster}}">
+                   <input type="text" name="title" class="form-control" id="title" value="{{item.title}}">
+                   <input type="text" name="year" class="form-control" id="year" value="{{item.year}}">
+            <button type="submit" class="btn btn-success">Add To My List</button>
+         </form>
+         {% endif %}
+         <h5 class="card-subtitle mb-2 text-muted">{{item.year}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.rated}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.released}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.runtime}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.genre}}</h5>
 
-          <h5 class="card-subtitle mb-2 text-muted">{{item.director}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.actors}}</h5>
-          <h3 class="card-subtitle mb-2 text-muted">Plot: {{item.plot}}</h3>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.language}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.awards}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.metascore}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.votes}}</h5>
-          <h5 class="card-subtitle mb-2 text-muted">{{item.revenue}}</h5> 
+         <h5 class="card-subtitle mb-2 text-muted">{{item.director}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.actors}}</h5>
+         <h3 class="card-subtitle mb-2 text-muted">Plot: {{item.plot}}</h3>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.language}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.awards}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.metascore}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.votes}}</h5>
+         <h5 class="card-subtitle mb-2 text-muted">{{item.revenue}}</h5>
 
-   
-          
-          <h6 class="card-subtitle mb-2 text-muted">{{item.budget}}</h6>
+         <h6 class="card-subtitle mb-2 text-muted">{{item.budget}}</h6>
 
-          <h6 class="card-subtitle mb-2 text-muted">{{item.type}}</h6>
+         <h6 class="card-subtitle mb-2 text-muted">{{item.type}}</h6>
+
+         
       </div>
-  </div>
+   </div>
 
 
 </div>
 
 
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-     document.querySelectorAll('button').forEach(button => {
-        button.onclick = function() {
+   document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('button').forEach(button => {
+         button.onclick = function () {
 
-           // Detects if LIKE button clicked
-           if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
-              console.log(`Like button clicked. Post number: ${this.parentElement.parentElement.dataset.id}`)
+            // Detects if LIKE button clicked
+            if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
+               console.log(`Like button clicked. Post number: ${this.parentElement.parentElement.dataset.id}`)
 
-              const element = event.target
-              const id = element.parentElement.parentElement.dataset.id
+               const element = event.target
+               const id = element.parentElement.parentElement.dataset.id
 
-              console.log(`Movie ID: ${id}`)
+               console.log(`Movie ID: ${id}`)
 
-              // Update database then HTML
-              fetch(`/like/${id}`), {
-                 method: 'POST'}
-                 like(element);
-              }
-           }
-        });
-  });
+               // Update database then HTML
+               fetch(`/like/${id}`), {
+                  method: 'POST'
+               }
+               like(element);
+            }
+         }
+      });
+   });
 
-  function like(post) {
+   function like(post) {
 
-     // Get current number of likes
-     var likes = post.querySelector("#number").innerHTML
+      // Get current number of likes
+      var likes = post.querySelector("#number").innerHTML
 
-     // Increment / deincrement number of likes and change colour of button
-     if (post.classList.contains("btn-secondary")) {
+      // Increment / deincrement number of likes and change colour of button
+      if (post.classList.contains("btn-secondary")) {
 
-        post.className = "btn btn-danger float-left";
-        likes++
-        post.querySelector("#number").innerHTML = likes
+         post.className = "btn btn-danger float-left";
+         likes++
+         post.querySelector("#number").innerHTML = likes
 
-     } else {
+      } else {
 
-        post.className = "btn btn-secondary float-left";
-        likes--
-        post.querySelector("#number").innerHTML = likes
-     }
-  }
+         post.className = "btn btn-secondary float-left";
+         likes--
+         post.querySelector("#number").innerHTML = likes
+      }
+   }
 
 </script>
 
-  {% endblock %}
+{% endblock %}
 </div>

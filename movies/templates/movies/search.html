@@ -44,13 +44,13 @@
     </div>
   </div>
 
-  <form action="{% url '_details' id=movie.id %}" method="POST">
+  <!-- <form action="{% url '_details' id=movie.id %}" method="POST">
     {% csrf_token %}
         <input name="imdbId" id="imdbId" class="form-control" value="{{movie.id}}">
         <input type="text" name="poster" class="form-control" id="poster" value="{{movie.poster}}">
         <input type="text" name="title" class="form-control" id="title" value="{{movie.title}}">
         <input type="text" name="year" class="form-control" id="year" value="{{movie.year}}">
-  </form>
+  </form> -->
 
   {% endfor %}
 

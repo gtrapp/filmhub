@@ -127,13 +127,38 @@ def like(request, movie_id):
 
     return JsonResponse({"message": "Post liked / disliked"})
 
-def add_mylist(request, id):
-    print("Debug - add_mylist: ", id)
-    Movie_data = Movie.objects.get(pk=id)
-    current_user = request.user
-    Movie_data.watchlist.add(current_user)
-    return HttpResponseRedirect(reverse("_details", args=(id, )))
+# def add_mylist(request, id):
+    # print("Debug - add_mylist: ", id)
+    # Movie_data = Movie.objects.get(pk=id)
+    # current_user = request.user
+    # Movie_data.watchlist.add(current_user)
+    # return HttpResponseRedirect(reverse("_details", args=(id, )))
     # return render(request, "movies/add_mylist.html")
+
+def add_mylist(request, id):
+    if request.method == "GET":
+        return render(request, "movies/details.html", {
+        })
+    else:
+        poster = request.POST["poster"]
+        title = request.POST["title"]
+        year = request.POST["year"]
+
+        my_list = Movie(
+            poster=poster,
+            title=title,
+            year=year
+        )
+        print("Debug - current_user: ", current_user)
+        # my_list.save()
+        # return HttpResponseRedirect(reverse(index))
+    print("Debug - current_usert: ", current_user)
+    
+    movie_data = Movie.objects.get(pk=id)
+    current_user = request.user
+    movie_data.mylist.add(current_user)
+    return HttpResponseRedirect(reverse("detai", args=(id, )))
+
 
 def remove_mylist(request, id):
     print("Debug - remove_mylist: ", id)

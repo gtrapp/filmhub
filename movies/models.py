@@ -5,6 +5,7 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+
 class Movie(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     imdb_id = models.CharField(max_length=100)
@@ -12,8 +13,8 @@ class Movie(models.Model):
     year = models.CharField(max_length=100)
     poster = models.CharField(max_length=1000)
     type = models.CharField(max_length=100)
-    mylist = models.ManyToManyField(User, blank=True, related_name='_mylist')
-
+    mylist = models.ManyToManyField(User, blank=True, related_name='movie_mylist')
+    
     def __str__(self):
         return f"{self.title} ({self.year})"
     
