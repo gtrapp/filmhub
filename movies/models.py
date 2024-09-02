@@ -7,7 +7,6 @@ class User(AbstractUser):
 
 
 class Movie(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
     imdb_id = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     year = models.CharField(max_length=100)

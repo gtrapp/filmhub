@@ -62,7 +62,7 @@ def search(request):
 
 
 def details(request, id):
-    print("Debug - id: ", id)
+    print("Debug - details daid: ", id)
 
     # Get movie details
     # url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
@@ -135,32 +135,43 @@ def like(request, movie_id):
 
 def add_mylist(request):
     print("Debug - add_mylist id: ", id)
-    # if request.method == "GET":
-    #     return render(request, "movies/details.html", {
-    #     })
-    # else:
-    imdb_id = request.POST["imdbID"]
-    print("Debug - imdb_id: ", imdb_id)
-    #     poster = request.POST["poster"]
-    #     title = request.POST["title"]
-    #     year = request.POST["year"]
-    #     print("Debug - imdb_id: ", imdb_id)
-        # my_list = Movie(
-        #     imdb_id=imdb_id,
-        #     poster=poster,
-        #     title=title,
-        #     year=year
-        # )
+    if request.method == "GET":
+        return render(request, "movies/details.html", {
+        })
+    elif request.method == "POST":
+        imdb_id = request.POST["imdbID"]
+        poster = request.POST["poster"]
+        title = request.POST["title"]
+        year = request.POST["year"]
+        # current_user = request.user
+        print("Debug - imdb_id: ", imdb_id)
+        my_list = Movie(
+            imdb_id=imdb_id,
+            poster=poster,
+            title=title,
+            year=year,
+            # mylist=current_user
+        )
         # print("Debug - current_user: ", current_user)
-        # my_list.save()
+        my_list.save()
+        print("Debug - my_list: ", my_list.id)
         # return HttpResponseRedirect(reverse(index))
     # print("Debug - current_usert: ", current_user)
     # movie_id = Movie.objects.get(pk=id)
     # print("Debug - movie_id: ", movie_id)
     # movie_data = Movie.objects.get(pk=id)
-    # current_user = request.user
+    current_user = request.user
+    print(current_user )
     # movie_data.mylist.add(current_user)
     return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+
+
+# def add_watchlist(request, id):
+#     Movie.objects.get(pk=id)
+#     movie_data = Movie.objects.get(pk=id)
+#     current_user = request.user
+#     movie_data.watchlist.add(current_user)
+#     return HttpResponseRedirect(reverse("listing", args=(id, )))
 
 
 def remove_mylist(request, id):
