@@ -1,0 +1,206 @@
+{% extends "movies/layout.html" %}
+
+{% block body %}
+
+<br>
+<div class="inline">
+   <hr><br>
+
+   <h2 data-id="{{viewed_profile_id}}">User: {{viewed_profile}}</h2>
+
+   {% if user.username == viewed_profile %}
+   <button type="button" style = "position:relative; bottom:2px;" class="follow btn btn-primary ms-4" disabled>Follow</button>
+
+   {% else %}
+   {% if following_status == True %} 
+   <button type="button" style = "position:relative; bottom:2px;" class="follow btn btn-danger ms-4">Unfollow</button>
+   {% elif following_status == False %}
+   <button type="button" style = "position:relative; bottom:2px;" class="follow btn btn-primary ms-4">Follow</button>
+   {% endif %}
+   {% endif %}
+
+</div>
+<!-- Display number of users following and followed by -->
+<i><p class="content-muted">Following: {{following}}, Followers: {{followed_by}}</p></i>
+<hr>
+<br>
+
+<div class="container">
+   <!-- Show paginated movies -->
+   {% for movie in page_obj %}
+   <div class="row justify-content-center mb-4">
+      <div class="ms-2 card" style="width: 35rem" data-id="{{movie.id}}";>
+         <div class="card-body rounded">
+            <h5 class="card-title"><a href="{% url 'profile' user_id=movie.author.id%}"><b>@{{ movie.user}}</b></h5></a>
+            <!-- <h6 class="card-subtitle mb-2 content-muted">{{movie.timestamp}}</h6> -->
+            <p class="card-content" id="content">{{movie.content}}</p>
+
+            <!-- If user likes movie, show like button as red; otherwise grey  -->
+            <!-- {% if user.username in movie.like.all|stringformat:'s' %}
+            <button class="btn btn-danger float-left" id="foo">&hearts;&nbsp;<span id="number">{{ movie.like.all.count }}</span></button> 
+            {% else %}
+            <button class="btn btn-secondary float-left" id="foo">&hearts;&nbsp;<span id="number">{{ movie.like.all.count }}</span></button> 
+            {% endif %} -->
+
+            <!-- If user is author of movie, show edit button -->
+            <!-- {% if user.username == movie.author|stringformat:'s' %}
+            <button class="btn btn-primary float-end edit" id="edit">  Edit</button>
+            {% endif %}
+         </div> -->
+      </div>
+      <br>
+   </div>
+   {% endfor %}
+
+   <br>
+   <!-- Pagination -->
+   <nav aria-label="Page">
+      <ul class="pagination justify-content-center">
+         {% if page_obj.has_previous %}
+         <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+         </li>
+         {% else %}
+         <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+         </li>
+         {% endif %}
+         {% for i in page_obj.paginator.page_range %}
+         {% if page_obj.number == i %}
+         <li class="page-item active" aria-current="page">
+            <span class="page-link">
+               {{ i }}
+               <span class="sr-only"></span>
+            </span>
+         </li>
+         {% else %}
+         <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+         {% endif %}
+         {% endfor %}
+         {% if page_obj.has_next %}
+         <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+         </li>
+         {% else %}
+         <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+         </li>
+         {% endif %}
+      </ul>
+   </nav>
+
+   <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+
+         document.querySelectorAll('button').forEach(button => {
+            button.onclick = function() {
+
+               // Detects if EDIT button clicked
+               if (event.target.classList.contains("follow")){
+
+                  const button = document.querySelector('button')
+                  let movie = document.querySelector('h2').dataset.id
+                  console.log(`User number ${movie}`)
+
+                  if (button.innerHTML == "Follow") {
+                     console.log("Follow button clicked")
+
+                     fetch(`/follow/${movie}`)
+                     .then(response => response.json())
+                     .then(data => {
+                       console.log(data);
+                       button.innerHTML = "Unfollow"
+                       button.className = "follow btn btn-danger ms-4"
+                    })
+
+                  }
+                  else if (button.innerHTML == "Unfollow") {
+                     console.log("Unfollow button clicked")
+
+                     fetch(`/follow/${movie}`)
+                     .then(response => response.json())
+                     .then(data => {
+                       console.log(data); 
+
+                       button.innerHTML = "Follow"
+                       button.className = "follow btn btn-primary ms-4"
+
+                    })
+                  }
+               }
+
+               // Detects if LIKE button clicked
+            //    else if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
+            //       console.log(`Like button clicked. movie number: ${this.parentElement.parentElement.dataset.id}`)
+
+            //       const element = event.target
+            //       const id = element.parentElement.parentElement.dataset.id
+
+            //       // Update database then HTML
+            //       fetch(`/like/${id}`), {
+            //          method: 'POST'}
+            //          like(element);
+            //       }
+
+                  // Detects if FOLLOW button clicked
+                  else if (event.target.className === "btn btn-primary float-end edit") {
+                     console.log(`Edit button clicked. movie number: ${this.parentElement.parentElement.dataset.id}`)
+
+                     const element = event.target
+                     const id = element.parentElement.parentElement.dataset.id
+                     const originalText = element.parentElement.querySelector("#content").innerText
+
+                     // If edit button reads 'edit', create content area and change button text to 'save'
+                     if (element.parentElement.querySelector("#edit").innerText === "Edit") {
+                        element.parentElement.querySelector("#content").innerHTML = '<textarea style="width: 32rem" id="edit_text"></textarea>'
+                        element.parentElement.querySelector("#edit_text").placeholder = originalText
+
+                        element.parentElement.querySelector("#edit").innerHTML = "Save"
+
+                     // If edit button reads 'save', update movie
+                     } else if (element.parentElement.querySelector("#edit").innerText === "Save") {
+
+                        fetch(`/edit/${id}`, {
+                           method: 'POST',
+                           body: JSON.stringify({
+                              post: element.parentElement.querySelector("#edit_text").value
+                           })
+                        })
+
+                        .then(response => response.json())
+                        .then(result => {
+                           console.log(`Edited content: ${result.new_content}`)
+
+                           // Update displayed text and revert edit button text to 'edit'
+                           element.parentElement.querySelector("#content").innerHTML = result.new_content
+                           element.parentElement.querySelector("#edit").innerHTML = "Edit"
+                        });   
+                     }
+                  }
+               }
+            })
+      })
+
+function like(movie) {
+
+   // Get current number of likes
+   var likes = movie.querySelector("#number").innerHTML
+
+   // Increment / deincrement number of likes and change colour of button
+   if (movie.classList.contains("btn-secondary")) {
+
+      movie.className = "btn btn-danger float-left";
+      likes++
+      movie.querySelector("#number").innerHTML = likes
+
+   } else {
+
+      movie.className = "btn btn-secondary float-left";
+      likes--
+      movie.querySelector("#number").innerHTML = likes
+   }
+}
+
+</script>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.core.paginator import Paginator   # Pagination functionality  
 from django.db import IntegrityError
 from django.http import JsonResponse
 from .models import *
@@ -28,27 +29,20 @@ def search(request):
 
     # If accessed via form submission (POST)
     elif request.method == "POST":
-
         # Search OMDb API  user-provided search term (keyword)
         keyword = request.POST["keyword"]
-
         url = "https://www.omdbapi.com/?apikey=91050fbc&s=" + keyword
         
         # OMDb API response
         results = []
-
         response = requests.get(url)
         jsonResponse = response.json()
         movies = jsonResponse["Search"]
 
         for movie in movies:
-
             entry = {}
-
             entry.update({'id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
-
             results.append(entry)
-
 
         if not movies:
             return render(request, "movies/search.html", {
@@ -182,6 +176,85 @@ def mylist(request, id):
     print("Debug - mylist: ", id)
     # def add_mylist(request):
     #     return render(request, "movies/add_mylist.html")
+
+
+
+def profile(request, user_id):
+    # Get profile
+    profile = User.objects.get(id=user_id)
+
+    # Check if user follows profile
+    if Follow.objects.filter(user=user_id, followed_by=request.user).exists():
+        print("Debug | user is following profile")
+        following_status = True
+    else:
+        print("Debug | user is NOT following profile")
+        following_status = False
+   
+    # Get list of IDs of people the logged in user follows (Follow objects)
+    follow_list = []
+    following = request.user._following.all()
+    for x in following:
+        follow_list.append(x.user.id)
+    
+    # Gets movies from profile in reverse chronological order
+    movies = Movie.objects.filter(user=user_id).order_by("id").reverse()
+    print("Debug | profile's movies: ",movies)
+
+    paginator = Paginator(movies, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "movies/profile.html", {
+        "page_obj": page_obj,
+        "viewed_profile": profile.username,
+        "viewed_profile_id": user_id,
+        "movies": movies,
+        "following": profile._following.all().count(),
+        "followed_by": Follow.objects.filter(user=user_id).count(),
+        "following_status": following_status
+    })
+
+
+def follow(request, user_id):
+    
+    # Get user 
+    user = User.objects.get(pk=request.user.id)
+    print("Debug:", user, type(user), user._following.all())
+    
+    # Get profile being viewed
+    profile = User.objects.get(pk=user_id)
+    print("Debug:", profile, type(profile), profile.following.all())
+
+    # Check if user already follows profile. If so, remove
+    if Follow.objects.filter(user=profile, followed_by=user).exists():        
+      
+        # print("Debug: user currently following profile")
+        instance = Follow.objects.filter(user=profile, followed_by=user).get()
+
+        user._following.remove(instance)
+
+        # If empty ManyToMany field, delete relationship
+        a = Follow.objects.filter(user=profile)
+        for x in a:
+            if not x.followed_by.exists():
+                x.delete()
+
+        # print("Debug: user no longer following profile")
+
+    else:
+        
+        # print("Debug: user NOT currently following profile")
+        instance = Follow(user=profile)
+        instance.save()
+
+        instance.followed_by.add(user)
+        print("Debug: user now following profile")
+
+    return JsonResponse({"message": "Profile successfully followed / unfollowed"}, status=201)
+
+
+
 
 
 # Log user in
