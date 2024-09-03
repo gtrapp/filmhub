@@ -127,28 +127,47 @@ def like(request, movie_id):
     # return HttpResponseRedirect(reverse("_details", args=(id, )))
     # return render(request, "movies/add_mylist.html")
 
+
+
+def add_comment(request, id):
+    current_user = request.user
+    movie_data = Movie.objects.get(pk=id)
+    message = request.POST['new_comment']
+
+    new_comment = Comment(
+        author=current_user,
+        listing=movie_data,
+        message=message
+    )
+    new_comment.save()
+
+    return HttpResponseRedirect(reverse("listing", args=(id, )))
+
+
 def add_mylist(request):
-    print("Debug - add_mylist id: ", id)
+    imdb_id = request.POST["imdbID"]
+    print("Debug - imdbID: ", imdb_id)
     if request.method == "GET":
         return render(request, "movies/details.html", {
         })
     elif request.method == "POST":
+        user = request.user
         imdb_id = request.POST["imdbID"]
         poster = request.POST["poster"]
         title = request.POST["title"]
         year = request.POST["year"]
-        # current_user = request.user
-        print("Debug - imdb_id: ", imdb_id)
-        my_list = Movie(
+        type = request.POST["type"]
+        user = Movie(
+            user=user,
             imdb_id=imdb_id,
             poster=poster,
             title=title,
             year=year,
-            # mylist=current_user
+            type=type
         )
-        # print("Debug - current_user: ", current_user)
-        my_list.save()
-        print("Debug - my_list: ", my_list.id)
+        user.save()
+
+        print("Debug - user: ", user.id)
         # return HttpResponseRedirect(reverse(index))
     # print("Debug - current_usert: ", current_user)
     # movie_id = Movie.objects.get(pk=id)

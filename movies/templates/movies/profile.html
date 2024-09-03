@@ -1,5 +1,4 @@
 {% extends "movies/layout.html" %}
-
 {% block body %}
 
 <br>
@@ -31,10 +30,20 @@
    <div class="row justify-content-center mb-4">
       <div class="ms-2 card" style="width: 35rem" data-id="{{movie.id}}";>
          <div class="card-body rounded">
-            <h5 class="card-title"><a href="{% url 'profile' user_id=movie.author.id%}"><b>@{{ movie.user}}</b></h5></a>
+            <h5 class="card-title"><a href="{% url '_profile' user_id=user.id%}"><b>@{{ movie.user}}</b></h5></a>
             <!-- <h6 class="card-subtitle mb-2 content-muted">{{movie.timestamp}}</h6> -->
-            <p class="card-content" id="content">{{movie.content}}</p>
+            <!-- <img class="card-content" id="content">{{movie.poster}}</p>
+            <p class="card-content" id="content">{{movie.title}}</p> -->
 
+            <div class="card m-3 text-center" style="width: 18rem">
+               <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
+               <div class="card-body">
+                 <h5 class="card-title">{{movie.title}}</h5>
+                 <h5 class="card-subtitle mb-2 text-muted">{{movie.year}}</h5>
+                 <h6 class="card-subtitle mb-2 text-muted">{{movie.type}}</h6>
+                 <!-- <a href="{% url '_details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">View</a> -->
+               </div>
+             </div>
             <!-- If user likes movie, show like button as red; otherwise grey  -->
             <!-- {% if user.username in movie.like.all|stringformat:'s' %}
             <button class="btn btn-danger float-left" id="foo">&hearts;&nbsp;<span id="number">{{ movie.like.all.count }}</span></button> 

@@ -1,4 +1,6 @@
-{% extends "movies/layout.html" %} {% block body %} {% load static %}
+{% extends "movies/layout.html" %} 
+{% block body %} 
+{% load static %}
 
 <div class="d-flex p-4 justify-content-center">
    <h1><b>Movie Details</b></h1>
@@ -36,10 +38,11 @@
          {% else %}
          <form action="{% url '_add_mylist' %}" method="POST">
                {% csrf_token %}
-                  <input type="text" name="imdbID" class="form-control" id="imdbID" value="{{item.imdbID}}">
-                  <input type="text" name="poster" class="form-control" id="poster" value="{{item.poster}}">
-                  <input type="text" name="title" class="form-control" id="title" value="{{item.title}}">
-                  <input type="text" name="year" class="form-control" id="year" value="{{item.year}}">
+                  <input type="hidden" name="imdbID" class="form-control" id="imdbID" value="{{item.imdbID}}">
+                  <input type="hidden" name="poster" class="form-control" id="poster" value="{{item.poster}}">
+                  <input type="hidden" name="title" class="form-control" id="title" value="{{item.title}}">
+                  <input type="hidden" name="year" class="form-control" id="year" value="{{item.year}}">
+                  <input type="hidden" name="type" class="form-control" id="type" value="{{item.type}}">
             <button type="submit" class="btn btn-success">Add To My List</button>
          </form>
          {% endif %}
@@ -61,6 +64,7 @@
          <h6 class="card-subtitle mb-2 text-muted">{{item.budget}}</h6>
 
          <h6 class="card-subtitle mb-2 text-muted">{{item.type}}</h6>
+         <a href="https://www.imdb.com/title/{{item.imdbID}}/" target="_blank" class="card-subtitle mb-2 text-muted">IMDB: {{item.imdbID}}</a>
 
          
       </div>
@@ -68,7 +72,8 @@
 
 
 </div>
-
+</br>
+</br>
 
 
 <script>
