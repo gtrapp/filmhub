@@ -1,63 +1,35 @@
-{% extends "movies/layout.html" %} 
-{% block body %} 
+{% extends "movies/layout.html" %}
+{% block body %}
 {% load static %}
 
-<div class="d-flex p-4 justify-content-center">
-  <h1><b>Search</b></h1>
-</div>
 
-<div class="container">
-  <div class="row pt-4">
-    <div class="col-4"></div>
-    <div class="col-4">
-
-      <form action="{% url 'search' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="exampleInputEmail1">Enter keyword: </label>
-          <input class="form-control" type="text" name="keyword" placeholder={{keyword}}>
-          <small class="form-text text-muted">Enter keyword</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-      </form>
-
+<div class="container searchpage">
+  <div class="row">
+    <div class="col-sm">
+      <p>Search term: "{{keyword}}"</p>
     </div>
-    <div class="col-4"></div>
   </div>
 </div>
-
-
-
-<h1>Search term: "{{keyword}}"</h1>
 
 {% if movies %}
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="searchresults row row-cols-1 row-cols-md-3 g-4 justify-content-center">
 
   {% for movie in movies %}
 
-  <div class="card m-3 text-center" style="width: 18rem">
+  <div class="card m-3" style="width: 10rem">
     <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
     <div class="card-body">
       <h5 class="card-title">{{movie.title}}</h5>
-      <h5 class="card-subtitle mb-2 text-muted">{{movie.year}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{movie.type}}</h6>
-      <a href="{% url '_details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">View</a>
+      <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
+      <p class="card-subtitle mb-2 text-muted">{{movie.type}}</p>
+      <a href="{% url '_details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">details</a>
     </div>
   </div>
-
-  <!-- <form action="{% url '_details' id=movie.id %}" method="POST">
-    {% csrf_token %}
-        <input name="imdbId" id="imdbId" class="form-control" value="{{movie.id}}">
-        <input type="text" name="poster" class="form-control" id="poster" value="{{movie.poster}}">
-        <input type="text" name="title" class="form-control" id="title" value="{{movie.title}}">
-        <input type="text" name="year" class="form-control" id="year" value="{{movie.year}}">
-  </form> -->
 
   {% endfor %}
 
 </div>
-
 
 {% endif %}
 {% endblock %}

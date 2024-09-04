@@ -1,0 +1,35 @@
+
+
+.card-title {
+    font-size: .75rem;
+}
+
+.card-subtitle {
+    font-size: .70rem;
+}
+
+a.btn {
+    line-height: 1;
+    font-size: .7rem;
+
+}
+
+.container.searchpage {
+    margin-bottom: 1rem;
+}
+
+.searchresults {
+    margin-bottom: 7rem;
+}
+
+.clear {
+    margin-top: 2rem;
+}
+
+.footer {
+    margin-top: 2rem;
+}
+
+.media {
+    width: 80%;
+}

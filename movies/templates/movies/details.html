@@ -2,27 +2,36 @@
 {% block body %} 
 {% load static %}
 
-<div class="d-flex p-4 justify-content-center">
-   <h1><b>Movie Details</b></h1>
+<a href="javascript:history.back()">Back to results</a>
+<div class="d-flex p-4">
+   <h1><b>{{item.title}}</b></h1>
+   
+</div>
+<div class="d-flex justify-content-center">
+   <p>{{item.year}}</p>
 </div>
 
-<div class="container">
-   <div class="row pt-4">
-      <div class="col-4"></div>
-      <div class="col-4">
-         
-      </div>
-      <div class="col-4"></div>
-   </div>
-</div>
-<a href="javascript:history.back()">Back to results</a>
+
 <!-- <a href="{% url 'search' %}">Back</a> -->
+
+<div class="container">
+<div class="media">
+   <img class="align-self-start mr-3" src="{{item.poster}}" alt="{{item.title}}" style="width: 10rem">
+   <div class="media-body">
+     <!-- <h5 class="mt-0">{{item.title}}</h5> -->
+     <p>{{item.plot}}</p>
+     <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+   </div>
+ </div>
+</div>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
 </div>
 <div class="d-flex p-4 justify-content-center">
    <div class="card m-3" style="width: 80%" data-id="{{item.imdbID}}">
-      <img class="card-img-top text-center" src="{{item.poster}}" alt="{{item.title}}" style="width: 20rem" />
+      
       <div class="card-body">
+         <img class="card-img-top text-center" src="{{item.poster}}" alt="{{item.title}}" style="width: 10rem" />
          <h2 class="card-title">{{item.title}}</h2>
 
          <!-- If user likes post, show like button as red; otherwise grey  -->
