@@ -3,7 +3,6 @@
 
 <br>
 <div class="inline">
-   <hr><br>
 
    <h2 data-id="{{viewed_profile_id}}">User: {{viewed_profile}}</h2>
 
@@ -24,13 +23,14 @@
 <hr>
 <br>
 
+
 <div class="container">
    <!-- Show paginated movies -->
    {% for movie in page_obj %}
    <div class="row justify-content-center mb-4">
       <div class="ms-2 card" style="width: 35rem" data-id="{{movie.id}}";>
          <div class="card-body rounded">
-            <h5 class="card-title"><a href="{% url '_profile' user_id=user.id%}"><b>@{{ movie.user}}</b></h5></a>
+            <h4 class="card-title"><a href="{% url '_profile' user_id=user.id%}"><b>@{{ movie.user}}</b></h4></a>
             <!-- <h6 class="card-subtitle mb-2 content-muted">{{movie.timestamp}}</h6> -->
             <!-- <img class="card-content" id="content">{{movie.poster}}</p>
             <p class="card-content" id="content">{{movie.title}}</p> -->

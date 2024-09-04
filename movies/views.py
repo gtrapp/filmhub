@@ -15,10 +15,11 @@ import json
 def index(request):
     return render(request, "movies/index.html")
 
+
 # @login_required(redirect_field_name='my_redirect_field')
 def profile(request, profile):
-
     return render(request, "movies/profile.html")
+
 
 def search(request):
 
@@ -143,6 +144,7 @@ def add_comment(request, id):
     return HttpResponseRedirect(reverse("listing", args=(id, )))
 
 
+
 def add_mylist(request):
     imdb_id = request.POST["imdbID"]
     print("Debug - imdbID: ", imdb_id)
@@ -189,6 +191,7 @@ def add_mylist(request):
 def remove_mylist(request, id):
     print("Debug - remove_mylist: ", id)
     # return render(request, "movies/remove_mylist.html")
+
 
 def mylist(request, id):
     print("Debug - mylist: ", id)
