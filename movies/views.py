@@ -20,7 +20,6 @@ def profile(request, profile):
 
     return render(request, "movies/profile.html")
 
-
 def search(request):
 
         # Default route (e.g. if accessed via a hyperlink)
@@ -75,7 +74,7 @@ def details(request, id):
     
     attributes = {}
     
-    if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes']}) 
+    if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes'], 'imdbRating': movie['imdbRating']}) 
         # attributes.update({'imdbID': item['imdbID'], 'title': item['Title'], 'year': item['Year'], 'plot': item['Plot'], 'poster': item['Poster'], 'type': item['Type']}) 
         # 
     result = result.append(attributes)

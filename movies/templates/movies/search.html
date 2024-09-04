@@ -6,7 +6,7 @@
 <div class="container searchpage">
   <div class="row">
     <div class="col-sm">
-      <p>Search term: "{{keyword}}"</p>
+      <p>Results for: "{{keyword}}"</p>
     </div>
   </div>
 </div>
@@ -17,7 +17,7 @@
 
   {% for movie in movies %}
 
-  <div class="card m-3" style="width: 10rem">
+  <div class="card m-3" style="width: 14rem">
     <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
     <div class="card-body">
       <h5 class="card-title">{{movie.title}}</h5>
