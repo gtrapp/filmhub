@@ -13,6 +13,7 @@ class Movie(models.Model):
     year = models.CharField(max_length=100)
     poster = models.CharField(max_length=1000)
     type = models.CharField(max_length=100)
+    imdb_rating = models.CharField(max_length=10)
     
     def __str__(self):
         return f"{self.title} ({self.year})"
@@ -25,11 +26,3 @@ class Follow(models.Model):
     def __str__(self):
         return f"{self.user} is followed by: {self.followed_by}"
 
-
-class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="comment_author")
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, blank=True, null=True, related_name="comment_movie")
-    message = models.CharField(max_length=200)
-
-    def __str__(self):
-        return f"{self.author} comment on {self.listing}"

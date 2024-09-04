@@ -1,6 +1,7 @@
 {% extends "movies/layout.html" %}
 {% block body %}
 
+
 <br>
 <div class="inline">
 
@@ -8,7 +9,6 @@
 
    {% if user.username == viewed_profile %}
    <button type="button" style="position:relative; bottom:2px;" class="follow btn btn-primary ms-4" disabled>Follow</button>
-
    {% else %}
    {% if following_status == True %}
    <button type="button" style="position:relative; bottom:2px;" class="follow btn btn-danger ms-4">Unfollow</button>
@@ -26,9 +26,9 @@
 <br>
 
    <!-- Show paginated movies -->
-   {% for movie in page_obj %}
-   <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-
+  
+   <div class="profile row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+      {% for movie in page_obj %}
       <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}" ;>
          <!-- <div class="card-body rounded"> -->
          <h4 class="card-title"><a href="{% url '_profile' user_id=user.id%}"><b>@{{ movie.user}}</b></h4></a>
@@ -38,12 +38,13 @@
                <h5 class="card-title">{{movie.title}}</h5>
                <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
                <p class="card-subtitle mb-2 text-muted">{{movie.type}}</p>
-               <a href="{% url '_details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">details</a>
+               <a href="{% url '_details' id=movie.imdb_id %}" class="btn btn-primary" data-id="{{movie.id}}">details</a>
+            
             </div>
-         
       </div>
+      {% endfor %}
    </div>
-   {% endfor %}
+
 
    <br>
    <!-- Pagination -->
@@ -82,22 +83,24 @@
       </ul>
    </nav>
 
+
+
+
    <script>
 
       document.addEventListener('DOMContentLoaded', function () {
-
-         document.querySelectorAll('button').forEach(button => {
+         document.querySelectorAll('.follow').forEach(button => {
             button.onclick = function () {
-
+               console.log("Hello World");
                // Detects if EDIT button clicked
+               
                if (event.target.classList.contains("follow")) {
-
-                  const button = document.querySelector('button')
+                  const button = document.querySelector('.follow')
                   let movie = document.querySelector('h2').dataset.id
                   console.log(`User number ${movie}`)
-
+                  console.log(button);
                   if (button.innerHTML == "Follow") {
-                     console.log("Follow button clicked")
+                     console.log("Follow button");
 
                      fetch(`/follow/${movie}`)
                         .then(response => response.json())
@@ -124,17 +127,17 @@
                }
 
                // Detects if LIKE button clicked
-               //    else if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
-               //       console.log(`Like button clicked. movie number: ${this.parentElement.parentElement.dataset.id}`)
+                  else if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
+                     console.log(`Like button clicked. movie number: ${this.parentElement.parentElement.dataset.id}`)
 
-               //       const element = event.target
-               //       const id = element.parentElement.parentElement.dataset.id
+                     const element = event.target
+                     const id = element.parentElement.parentElement.dataset.id
 
-               //       // Update database then HTML
-               //       fetch(`/like/${id}`), {
-               //          method: 'POST'}
-               //          like(element);
-               //       }
+                     // Update database then HTML
+                     fetch(`/like/${id}`), {
+                        method: 'POST'}
+                        like(element);
+                     }
 
                // Detects if FOLLOW button clicked
                else if (event.target.className === "btn btn-primary float-end edit") {
@@ -196,4 +199,5 @@
       }
 
    </script>
-   {% endblock %}
+
+{% endblock %}

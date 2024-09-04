@@ -1,19 +1,40 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator   # Pagination functionality  
-from django.db import IntegrityError
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from .models import *
 import requests
-import json
+import json # JSON functionality
+
+
 
 # Create your views here.
 def index(request):
     return render(request, "movies/index.html")
+
+
+def top_rated(request):
+
+    # all posts 5 per page
+    movies = Movie.objects.all().order_by("imdb_rating").reverse()
+    print("Debug - top_rated: ", Movie.objects.all())
+    # movies = Movie.objects.all().order_by("imdbRating").reverse()
+    paginator = Paginator(movies, 5)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # print("Debug | all posts:",posts)
+
+    return render(request, "movies/top-rated.html", {
+        "page_obj": page_obj
+    })
+
+
 
 
 # @login_required(redirect_field_name='my_redirect_field')
@@ -56,7 +77,7 @@ def search(request):
 
 
 def details(request, id):
-    print("Debug - details daid: ", id)
+    print("Debug - details id: ", id)
 
     # Get movie details
     # url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
@@ -158,13 +179,15 @@ def add_mylist(request):
         title = request.POST["title"]
         year = request.POST["year"]
         type = request.POST["type"]
+        imdb_rating = request.POST["imdbRating"]
         user = Movie(
             user=user,
             imdb_id=imdb_id,
             poster=poster,
             title=title,
             year=year,
-            type=type
+            type=type,
+            imdb_rating=imdb_rating
         )
         user.save()
 
@@ -206,10 +229,10 @@ def profile(request, user_id):
 
     # Check if user follows profile
     if Follow.objects.filter(user=user_id, followed_by=request.user).exists():
-        print("Debug | user is following profile")
+        # print("Debug | user is following profile")
         following_status = True
     else:
-        print("Debug | user is NOT following profile")
+        # print("Debug | user is NOT following profile")
         following_status = False
    
     # Get list of IDs of people the logged in user follows (Follow objects)
@@ -220,7 +243,7 @@ def profile(request, user_id):
     
     # Gets movies from profile in reverse chronological order
     movies = Movie.objects.filter(user=user_id).order_by("id").reverse()
-    print("Debug | profile's movies: ",movies)
+    # print("Debug | profile's movies: ",movies)
 
     paginator = Paginator(movies, 10)
     page_number = request.GET.get('page')
@@ -237,15 +260,40 @@ def profile(request, user_id):
     })
 
 
-def follow(request, user_id):
+
+def following(request):
+
+    # Gets all profiles user follows
+    users_followed = request.user._following.all()
+  
+    # Make list of IDs
+    users_followed_ids = []
+    for x in users_followed:
+        users_followed_ids.append(x.user.id) # add the user id of the user who clicked
+
+    # print("Debug | User follows: ", users_followed_ids)
     
+    # Gets posts from profiles in reverse chronological order
+    posts = Movie.objects.filter(author__in=users_followed_ids).order_by("id").reverse()
+    
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "movie/following.html", {
+        "page_obj": page_obj
+    })
+
+
+
+def follow(request, user_id):
     # Get user 
     user = User.objects.get(pk=request.user.id)
     print("Debug:", user, type(user), user._following.all())
     
     # Get profile being viewed
     profile = User.objects.get(pk=user_id)
-    print("Debug:", profile, type(profile), profile.following.all())
+    # print("Debug:", profile, type(profile), profile.following.all())
 
     # Check if user already follows profile. If so, remove
     if Follow.objects.filter(user=profile, followed_by=user).exists():        
@@ -270,10 +318,29 @@ def follow(request, user_id):
         instance.save()
 
         instance.followed_by.add(user)
-        print("Debug: user now following profile")
+        # print("Debug: user now following profile")
 
     return JsonResponse({"message": "Profile successfully followed / unfollowed"}, status=201)
+    
 
+# @csrf_exempt
+def edit(request, post_id):
+
+    print("Debug | Edit function, movie: ", post_id)
+ 
+    # Get original movie
+    movie = Movie.objects.get(pk=post_id)
+
+    # Gets new text (edited) in JSON format
+    data = json.loads(request.body)
+    new_content = data.get("movie", "t")
+    
+    # Update movie to new text
+    movie.content = new_content
+    movie.save()
+
+    # Return new text for instant display
+    return JsonResponse({"message": "Movie successfully edited", "new_text": new_content}, status=201)
 
 
 

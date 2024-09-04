@@ -21,13 +21,16 @@ a.btn {
 .searchresults {
     margin-bottom: 7rem;
 }
+.searchresults {
+    margin-bottom: 20%;
+}
 
 .clear {
     margin-top: 2rem;
 }
 
-.footer {
-    margin-top: 2rem;
+body {
+    padding-bottom: 15%;
 }
 
 .media {
