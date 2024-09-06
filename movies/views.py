@@ -117,7 +117,7 @@ def details(request, imdbID):
     # print("Debug - attributes: ", attributes)   
     # print("Debug - result: ", result)
 
-    
+
     # return render(request, "movies/details.html", {
     #     "movie": attributes
     # })
