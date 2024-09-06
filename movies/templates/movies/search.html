@@ -22,7 +22,7 @@
       <h5 class="card-title">{{movie.title}}</h5>
       <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
       <p class="card-subtitle mb-2 text-muted">{{movie.type}}</p>
-      <a href="{% url '_details' id=movie.id %}" class="btn btn-primary" data-id="{{movie.id}}">details</a>
+      <a href="{% url '_details' imdbID=movie.imdbID %}" class="btn btn-primary" data-id="{{movie.imdbID}}">details</a>
     </div>
   </div>
 

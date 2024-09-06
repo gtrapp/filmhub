@@ -1,5 +1,5 @@
-{% extends "movies/layout.html" %} 
-{% block body %} 
+{% extends "movies/layout.html" %}
+{% block body %}
 {% load static %}
 
 <a href="javascript:history.back()">Back to results</a>
@@ -7,86 +7,45 @@
 <!-- <a href="{% url 'search' %}">Back</a> -->
 
 <div class="container">
-   <h1>{{item.title}}</h1>
-   <p>{{item.year}} &#x2022; {{item.rated}} &#x2022; {{item.runtime}}</p>
-<div class="media">
-   <img class="align-self-start mr-3" src="{{item.poster}}" alt="{{item.title}}" style="width: 16rem">
-   <div class="media-body">
-     <!-- <h5 class="mt-0">{{item.title}}</h5> -->
-      <h5>Director: {{item.director}}</h5>
-      <h5>Stars: {{item.actors}}</h5>
-     <p>{{item.plot}}</p>
-     <p class="text-muted">{{item.genre}}</p>
-     <p class="text-muted">Metascore: {{item.metascore}}</p>
-     <p class="text-muted">IMDB Rating: {{item.imdbRating}}</p>
+   <h1>{{movie.title}}</h1>
+   <p>{{movie.year}} &#x2022; {{movie.rated}} &#x2022; {{movie.runtime}}</p>
+   <div class="media">
+      <img class="align-self-start mr-3" src="{{movie.poster}}" alt="{{movie.title}}" style="width: 16rem">
+      <div class="media-body">
+         <!-- <h5 class="mt-0">{{movie.title}}</h5> -->
+         <h5>Director: {{movie.director}}</h5>
+         <h5>Stars: {{movie.actors}}</h5>
+         <p>{{movie.plot}}</p>
+         <p class="text-muted">{{movie.genre}}</p>
+         <p class="card-subtitle mb-2 text-muted">Awards: {{movie.awards}}</p>
+         <p class="card-subtitle mb-2 text-muted">Metascore: {{movie.metascore}}</p>
+         <p class="card-subtitle mb-2 text-muted">IMDB Rating: {{movie.imdbRating}}</p>
+         <a href="https://www.imdb.com/title/{{movie.imdbID}}/" target="_blank"
+            class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdbID}}</a>
+      </div>
    </div>
- </div>
- {% if in_watchlist %}
-         <form action="{% url '_remove_mylist' %}" method="POST">
-            <button type="submit" class="btn btn-danger">Remove From My List</button>
-         </form>
-         {% else %}
-         <form action="{% url '_add_mylist' %}" method="POST">
-               {% csrf_token %}
-                  <input type="hidden" name="imdbID" class="form-control" id="imdbID" value="{{item.imdbID}}">
-                  <input type="hidden" name="poster" class="form-control" id="poster" value="{{item.poster}}">
-                  <input type="hidden" name="title" class="form-control" id="title" value="{{item.title}}">
-                  <input type="hidden" name="year" class="form-control" id="year" value="{{item.year}}">
-                  <input type="hidden" name="type" class="form-control" id="type" value="{{item.type}}">
-                  <input type="hidden" name="imdbRating" class="form-control" id="imdbRating" value="{{item.imdbRating}}">
-            <button type="submit" class="btn btn-success">Add To My List</button>
-         </form>
-         {% endif %}
+   {% if in_watchlist %}
+   <form action="{% url '_remove_mylist' %}" method="POST">
+      <button type="submit" class="btn btn-danger">Remove From My List</button>
+   </form>
+   {% else %}
+   <form action="{% url '_add_mylist' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="imdbID" class="form-control" id="imdbID" value="{{movie.imdbID}}">
+      <input type="hidden" name="poster" class="form-control" id="poster" value="{{movie.poster}}">
+      <input type="hidden" name="title" class="form-control" id="title" value="{{movie.title}}">
+      <input type="hidden" name="year" class="form-control" id="year" value="{{movie.year}}">
+      <input type="hidden" name="type" class="form-control" id="type" value="{{movie.type}}">
+      <input type="hidden" name="imdbRating" class="form-control" id="imdbRating" value="{{movie.imdbRating}}">
+      <button type="submit" class="btn btn-success">Add To My List</button>
+   </form>
+   {% endif %}
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
 </div>
+
 <div class="d-flex p-4 justify-content-center">
-   <div class="card m-3" style="width: 80%" data-id="{{item.imdbID}}">
-      <div class="card-body">
-         <!-- If user likes post, show like button as red; otherwise grey  -->
-         <!-- {% if user.username in post.like.all|stringformat:'s' %}
-          <button class="btn btn-danger float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
-          {% else %}
-          <button class="btn btn-secondary float-left" id="foo">&hearts;&nbsp;<span id="number">{{ post.like.all.count }}</span></button> 
-          {% endif %} -->
-         <!-- {% if in_watchlist %}
-         <form action="{% url '_remove_mylist' %}" method="POST">
-            <button type="submit" class="btn btn-danger">Remove From My List</button>
-         </form>
-         {% else %}
-         <form action="{% url '_add_mylist' %}" method="POST">
-               {% csrf_token %}
-                  <input type="hidden" name="imdbID" class="form-control" id="imdbID" value="{{item.imdbID}}">
-                  <input type="hidden" name="poster" class="form-control" id="poster" value="{{item.poster}}">
-                  <input type="hidden" name="title" class="form-control" id="title" value="{{item.title}}">
-                  <input type="hidden" name="year" class="form-control" id="year" value="{{item.year}}">
-                  <input type="hidden" name="type" class="form-control" id="type" value="{{item.type}}">
-            <button type="submit" class="btn btn-success">Add To My List</button>
-         </form>
-         {% endif %} -->
-         <!-- <h5 class="card-subtitle mb-2 text-muted">year: {{item.year}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">rated: {{item.rated}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">released: {{item.released}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">runtime: {{item.runtime}}</h5> -->
-         <!-- <h5 class="card-subtitle mb-2 text-muted">genre: {{item.genre}}</h5> -->
-
-         <!-- <h5 class="card-subtitle mb-2 text-muted">director: {{item.director}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">actors: {{item.actors}}</h5>
-         <h3 class="card-subtitle mb-2 text-muted">Plot: {{item.plot}}</h3> -->
-         <h5 class="card-subtitle mb-2 text-muted">language: {{item.language}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">awards: {{item.awards}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">metascore: {{item.metascore}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">votes: {{item.votes}}</h5>
-         <h5 class="card-subtitle mb-2 text-muted">revenue: {{item.revenue}}</h5>
-
-         <h6 class="card-subtitle mb-2 text-muted">budget: {{item.budget}}</h6>
-
-         <h6 class="card-subtitle mb-2 text-muted">type: {{item.type}}</h6>
-         <a href="https://www.imdb.com/title/{{item.imdbID}}/" target="_blank" class="card-subtitle mb-2 text-muted">IMDB: {{item.imdbID}}</a>
-
-      </div>
-   </div>
 
 </div>
 </br>

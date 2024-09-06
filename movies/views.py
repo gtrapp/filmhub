@@ -44,7 +44,7 @@ def profile(request, profile):
 
 def search(request):
 
-        # Default route (e.g. if accessed via a hyperlink)
+    # Default route (e.g. if accessed via a hyperlink)
     if request.method == "GET":
         return render(request, "movies/search.html")
 
@@ -61,9 +61,10 @@ def search(request):
         movies = jsonResponse["Search"]
 
         for movie in movies:
-            entry = {}
-            entry.update({'id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
-            results.append(entry)
+            title = {}
+            title.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
+            
+            results.append(title)
 
         if not movies:
             return render(request, "movies/search.html", {
@@ -76,13 +77,11 @@ def search(request):
             })
 
 
-def details(request, id):
-    print("Debug - details id: ", id)
+def details(request, imdbID):
+    print("Debug - imdbID: ", imdbID)
 
-    # Get movie details
-    # url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
-
-    url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + id
+    # Get movie details 
+    url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdbID
     
     # print("Debug - url: ", url)
 
@@ -97,16 +96,37 @@ def details(request, id):
     attributes = {}
     
     if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes'], 'imdbRating': movie['imdbRating']}) 
-        # attributes.update({'imdbID': item['imdbID'], 'title': item['Title'], 'year': item['Year'], 'plot': item['Plot'], 'poster': item['Poster'], 'type': item['Type']}) 
-        # 
+  
     result = result.append(attributes)
+
+    # Movie.objects.filter(imdb_id=imdbID).update(imdb_rating=movie['imdbRating'])
+    # Movie.objects.filter(imdb_id=imdbID).update(imdb_votes=movie['imdbVotes'])
+    title = Movie.objects.get(imdb_id=imdbID)
+    print("Debug - title/attributes: ", title.year)
+
+    if title:
+        print("Debug - local db title: ", title.pk)
+        context = title
+        print("Debug - context: ", context)
+
+    else:
+        print("Debug - title is None")
+        context = attributes
+        print("Debug - context: ", context)
 
     # print("Debug - attributes: ", attributes)   
     # print("Debug - result: ", result)
 
+    
+    # return render(request, "movies/details.html", {
+    #     "movie": attributes
+    # })
+
     return render(request, "movies/details.html", {
-        "item": attributes
+        "movie": context
     })
+
+
 
 
 def like(request, movie_id):
