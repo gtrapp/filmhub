@@ -212,7 +212,7 @@ def add_mylist(request):
         user.save()
 
         print("Debug - user: ", user.id)
-        # return HttpResponseRedirect(reverse(index))
+     # return HttpResponseRedirect(reverse(index))
     # print("Debug - current_usert: ", current_user)
     # movie_id = Movie.objects.get(pk=id)
     # print("Debug - movie_id: ", movie_id)
