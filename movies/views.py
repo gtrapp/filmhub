@@ -101,18 +101,21 @@ def details(request, imdbID):
 
     # Movie.objects.filter(imdb_id=imdbID).update(imdb_rating=movie['imdbRating'])
     # Movie.objects.filter(imdb_id=imdbID).update(imdb_votes=movie['imdbVotes'])
-    title = Movie.objects.get(imdb_id=imdbID)
-    print("Debug - title/attributes: ", title.year)
-
-    if title:
-        print("Debug - local db title: ", title.pk)
-        context = title
-        print("Debug - context: ", context)
+    # title = Movie.objects.get(imdb_id=imdbID)
+    # print("Debug - title/attributes: ", title.year)
+    
+    if Movie.objects.filter(imdb_id=imdbID).exists():
+        print("Debug - title exists")
+        
+        title = Movie.objects.get(imdb_id=imdbID)
+        # print("Debug - local db title: ", title.pk)
+        # context = title
+        print("Debug - context: ", title)
 
     else:
         print("Debug - title is None")
-        context = attributes
-        print("Debug - context: ", context)
+        title = attributes
+        print("Debug - context: ", title)
 
     # print("Debug - attributes: ", attributes)   
     # print("Debug - result: ", result)
@@ -123,7 +126,7 @@ def details(request, imdbID):
     # })
 
     return render(request, "movies/details.html", {
-        "movie": context
+        "movie": title
     })
 
 
