@@ -19,9 +19,9 @@
          <p class="text-muted">{{movie.genre}}</p>
          <p class="card-subtitle mb-2 text-muted">Awards: {{movie.awards}}</p>
          <p class="card-subtitle mb-2 text-muted">Metascore: {{movie.metascore}}</p>
-         <p class="card-subtitle mb-2 text-muted">IMDB Rating: {{movie.imdbRating}}</p>
-         <a href="https://www.imdb.com/title/{{movie.imdbID}}/" target="_blank"
-            class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdbID}}</a>
+         <p class="card-subtitle mb-2 text-muted">IMDB Rating: {{movie.imdb_rating}}</p>
+         <a href="https://www.imdb.com/title/{{movie.imdb_id}}/" target="_blank"
+            class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdb_id}}</a>
       </div>
    </div>
    {% if in_watchlist %}
@@ -31,12 +31,22 @@
    {% else %}
    <form action="{% url '_add_mylist' %}" method="POST">
       {% csrf_token %}
-      <input type="hidden" name="imdbID" class="form-control" id="imdbID" value="{{movie.imdbID}}">
-      <input type="hidden" name="poster" class="form-control" id="poster" value="{{movie.poster}}">
+      
+      <input type="hidden" name="imdb_id" class="form-control" id="imdb_id" value="{{movie.imdb_id}}">
       <input type="hidden" name="title" class="form-control" id="title" value="{{movie.title}}">
       <input type="hidden" name="year" class="form-control" id="year" value="{{movie.year}}">
+      <input type="hidden" name="poster" class="form-control" id="poster" value="{{movie.poster}}">
       <input type="hidden" name="type" class="form-control" id="type" value="{{movie.type}}">
-      <input type="hidden" name="imdbRating" class="form-control" id="imdbRating" value="{{movie.imdbRating}}">
+      <input type="hidden" name="rated" class="form-control" id="rated" value="{{movie.rated}}">
+      <input type="hidden" name="runtime" class="form-control" id="runtime" value="{{movie.runtime}}">
+      <input type="hidden" name="director" class="form-control" id="director" value="{{movie.director}}">
+      <input type="hidden" name="actors" class="form-control" id="actors" value="{{movie.actors}}">
+      <input type="hidden" name="plot" class="form-control" id="plot" value="{{movie.plot}}">
+      <input type="hidden" name="genre" class="form-control" id="genre" value="{{movie.genre}}">
+      <input type="hidden" name="awards" class="form-control" id="awards" value="{{movie.awards}}">
+      <input type="hidden" name="metascore" class="form-control" id="metascore" value="{{movie.metascore}}">
+      <input type="hidden" name="imdb_rating" class="form-control" id="imdb_rating" value="{{movie.imdb_rating}}">
+   
       <button type="submit" class="btn btn-success">Add To My List</button>
    </form>
    {% endif %}

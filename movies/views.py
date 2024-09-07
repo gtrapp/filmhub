@@ -63,7 +63,7 @@ def search(request):
 
         for movie in movies:
             title = {}
-            title.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
+            title.update({'imdb_id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
             
             results.append(title)
 
@@ -78,11 +78,11 @@ def search(request):
             })
 
 
-def details(request, imdbID):
-    print("Debug - imdbID: ", imdbID)
+def details(request, imdb_id):
+    print("Debug - imdb_id: ", imdb_id)
 
     # Get movie details 
-    url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdbID
+    url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdb_id
 
     result = []
 
@@ -94,19 +94,19 @@ def details(request, imdbID):
     
     attributes = {}
     
-    if movie: attributes.update({'imdbID': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes'], 'imdbRating': movie['imdbRating']}) 
+    if movie: attributes.update({'imdb_id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes'], 'imdb_rating': movie['imdbRating']}) 
   
     result = result.append(attributes)
 
-    # Movie.objects.filter(imdb_id=imdbID).update(imdb_rating=movie['imdbRating'])
-    # Movie.objects.filter(imdb_id=imdbID).update(imdb_votes=movie['imdbVotes'])
-    # title = Movie.objects.get(imdb_id=imdbID)
+    # Movie.objects.filter(imdb_id=imdb_id).update(imdb_rating=movie['imdbRating'])
+    # Movie.objects.filter(imdb_id=imdb_id).update(imdb_votes=movie['imdbVotes'])
+    # title = Movie.objects.get(imdb_id=imdb_id)
     # print("Debug - title/attributes: ", title.year)
     
-    if Movie.objects.filter(imdb_id=imdbID).exists():
+    if Movie.objects.filter(imdb_id=imdb_id).exists():
         print("Debug - title exists")
         
-        title = Movie.objects.get(imdb_id=imdbID)
+        title = Movie.objects.get(imdb_id=imdb_id)
         # print("Debug - local db title: ", title.pk)
         # context = title
         print("Debug - context: ", title)
@@ -138,13 +138,13 @@ def like(request, movie_id):
     # Get user and relevant movie
     user = User.objects.get(id=request.user.id)
     # movie = Movie.objects.get(id=movie_id)
-    imdbID = request.POST.get( movie_id)
+    imdb_id = request.POST.get( movie_id)
 
     print("Debug | user: ", user)
-    print("Debug | movie_id: ", imdbID)
+    print("Debug | movie_id: ", imdb_id)
     
     add_movie = Movie(
-        imdb_id = imdbID,
+        imdb_id = imdb_id,
         like_by = user
      )
 
@@ -176,6 +176,8 @@ def add_comment(request, id):
     current_user = request.user
     movie_data = Movie.objects.get(pk=id)
     message = request.POST['new_comment']
+   
+    print("Debug - current_user: ", current_user)
 
     new_comment = Comment(
         author=current_user,
@@ -189,27 +191,43 @@ def add_comment(request, id):
 
 
 def add_mylist(request):
-    imdb_id = request.POST["imdbID"]
-    print("Debug - imdbID: ", imdb_id)
+    imdb_id = request.POST["imdb_id"]
+    print("Debug - imdb_id: ", imdb_id)
     if request.method == "GET":
         return render(request, "movies/details.html", {
         })
     elif request.method == "POST":
         user = request.user
-        imdb_id = request.POST["imdbID"]
-        poster = request.POST["poster"]
+        imdb_id = request.POST["imdb_id"]
         title = request.POST["title"]
         year = request.POST["year"]
+        poster = request.POST["poster"]
         type = request.POST["type"]
-        imdbRating = request.POST["imdbRating"]
+        rated = request.POST["rated"]
+        runtime = request.POST["runtime"]
+        director = request.POST["director"]
+        actors = request.POST["actors"]
+        plot = request.POST["plot"]
+        genre = request.POST["genre"]
+        awards = request.POST["awards"]
+        metascore = request.POST["metascore"]
+        imdb_rating = request.POST["imdb_rating"]
         user = Movie(
             user=user,
             imdb_id=imdb_id,
-            poster=poster,
             title=title,
             year=year,
+            poster=poster,
             type=type,
-            imdbRating=imdbRating
+            rated=rated,
+            runtime=runtime,
+            director=director,
+            actors=actors,
+            plot=plot,
+            genre=genre,
+            awards=awards,
+            metascore=metascore,
+            imdb_rating=imdb_rating
         )
         user.save()
 

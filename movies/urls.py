@@ -8,7 +8,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("search", views.search, name="search"),
-    path("details/<str:imdbID>", views.details, name="_details"),
+    path("details/<str:imdb_id>", views.details, name="_details"),
     path("profile/<int:user_id>", views.profile, name="_profile"),
     path("top_rated", views.top_rated, name="_top_rated"),
     
