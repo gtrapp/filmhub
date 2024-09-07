@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 import requests
 import json # JSON functionality
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -78,6 +78,15 @@ def search(request):
             })
 
 
+def check_imdbid_and_user(user_id, imdb_id):
+    try:
+        instance = Movie.objects.get(user_id=user_id, imdb_id=imdb_id)
+        print("Debug - check_imdbid_and_user: ", instance)
+        return True
+    except Movie.DoesNotExist:
+        return False
+    
+
 def details(request, imdb_id):
     print("Debug - imdb_id: ", imdb_id)
 
@@ -102,17 +111,20 @@ def details(request, imdb_id):
     # Movie.objects.filter(imdb_id=imdb_id).update(imdb_votes=movie['imdbVotes'])
     # title = Movie.objects.get(imdb_id=imdb_id)
     # print("Debug - title/attributes: ", title.year)
+
+    exists = check_imdbid_and_user(request.user.id, imdb_id)
     
-    if Movie.objects.filter(imdb_id=imdb_id).exists():
+    # if Movie.objects.filter(imdb_id=imdb_id).exists()
+    if exists:
         print("Debug - title exists")
         
         title = Movie.objects.get(imdb_id=imdb_id)
         # print("Debug - local db title: ", title.pk)
         # context = title
-        print("Debug - context: ", title)
+        print("Debug - title: ", title)
 
     else:
-        print("Debug - title is None")
+        print("Debug - title not in local db")
         title = attributes
         print("Debug - context: ", title)
 
