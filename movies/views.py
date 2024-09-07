@@ -36,10 +36,11 @@ def top_rated(request):
 
 
 
-
 # @login_required(redirect_field_name='my_redirect_field')
 def profile(request, profile):
     return render(request, "movies/profile.html")
+
+
 
 
 def search(request):
@@ -82,8 +83,6 @@ def details(request, imdbID):
 
     # Get movie details 
     url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdbID
-    
-    # print("Debug - url: ", url)
 
     result = []
 
@@ -202,7 +201,7 @@ def add_mylist(request):
         title = request.POST["title"]
         year = request.POST["year"]
         type = request.POST["type"]
-        imdb_rating = request.POST["imdbRating"]
+        imdbRating = request.POST["imdbRating"]
         user = Movie(
             user=user,
             imdb_id=imdb_id,
@@ -210,7 +209,7 @@ def add_mylist(request):
             title=title,
             year=year,
             type=type,
-            imdb_rating=imdb_rating
+            imdbRating=imdbRating
         )
         user.save()
 
@@ -224,6 +223,7 @@ def add_mylist(request):
     print(current_user )
     # movie_data.mylist.add(current_user)
     return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+
 
 
 # def add_watchlist(request, id):

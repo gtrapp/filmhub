@@ -13,10 +13,18 @@ class Movie(models.Model):
     year = models.CharField(max_length=100)
     poster = models.CharField(max_length=1000)
     type = models.CharField(max_length=100)
+    rated = models.CharField(max_length=10)
+    runtime = models.CharField(max_length=10)
+    director = models.CharField(max_length=100)
+    actors = models.CharField(max_length=100)
+    plot = models.CharField(max_length=1000)
+    genre = models.CharField(max_length=100)
+    awards = models.CharField(max_length=100)
+    metascore = models.CharField(max_length=10)
     imdb_rating = models.CharField(max_length=10)
     
     def __str__(self):
-        return f"{self.title} ({self.year})"
+        return f"{self.user} {self.imdb_id} {self.title} {self.year} {self.poster} {self.type} {self.rated} {self.runtime} {self.director} {self.actors} {self.plot} {self.genre} {self.awards} {self.metascore} {self.imdb_rating}"
     
 
 class Follow(models.Model):
@@ -33,4 +41,4 @@ class Comment(models.Model):
     message = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.author} comment on {self.movie}"
+        return f"{self.author} comment on {self.movie}: {self.message}"
