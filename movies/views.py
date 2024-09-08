@@ -204,9 +204,11 @@ def add_comment(request, id):
         )
     new_comment.save()
 
+    imdb_id = movie_data.imdb_id
 
-    # return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
-    return HttpResponseRedirect(reverse("movie._details", args=(id)))
+
+    return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+    
 
 
     # if request.method == "POST":
