@@ -285,33 +285,39 @@ def add_comment(request, id):
 
         # return render(request, "movies/details.html", user{
         # })
-    
 
 
 def my_list(request, id):
     # Listing.objects.get(pk=id)
-    movie_data = Movie.objects.get(pk=id)
+    movie_data = Movie.objects.get(id=id)
     current_user = request.user
-    movie_data.watchlist.add(current_user)
-    return HttpResponseRedirect(reverse("details", args=(id, )))
+    movie_data.my_list.add(current_user)
+    return HttpResponseRedirect(reverse("_details", args=(id, )))
 
 
     
-def add_mylist(request):
+def add_mylist(request, id):
     
     imdb_id = request.POST["imdb_id"]
     print("Debug - imdb_id: ", imdb_id)
     
     # Movie.objects.filter(imdb_id).exists
-    
+  
     if request.method == "GET":
-        return render(request, "movies/details.html", {
+        return render(request, "movies/index.html", {
         })
     
     elif Movie.objects.filter(imdb_id=imdb_id).exists():
-       print("Debug - Movie already exists")
-    #    my_list(request, imdb_id)
-       return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+        
+        my_list(request, id)
+       
+        print("Debug - Movie already exists")
+    #    my_list(request, id)
+    #    movie_data = Movie.objects.filter(id=id)
+        print("GEE THERE: ", Movie.objects.get(id=id))
+        print("request.user",request.user)
+        
+        return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
         
     elif request.method == "POST":
         user = request.user

@@ -29,7 +29,7 @@
       <button type="submit" class="btn btn-danger">Remove From My List</button>
    </form>
    {% else %}
-   <form action="{% url '_add_mylist' %}" method="POST">
+   <form action="{% url '_add_mylist' id=movie.id %}" method="POST">
       {% csrf_token %}
       
       <input type="hidden" name="imdb_id" class="form-control" id="imdb_id" value="{{movie.imdb_id}}">
