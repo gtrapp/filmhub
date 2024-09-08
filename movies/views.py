@@ -42,7 +42,6 @@ def profile(request, profile):
 
 
 
-
 def search(request):
 
     # Default route (e.g. if accessed via a hyperlink)
@@ -80,8 +79,11 @@ def search(request):
 
 def check_imdbid_and_user(user_id, imdb_id):
     try:
+        # instance = Movie.objects.get(user_id=user_id, imdb_id=imdb_id)
         instance = Movie.objects.get(user_id=user_id, imdb_id=imdb_id)
-        print("Debug - check_imdbid_and_user: ", instance)
+        print("Debug: check_imdbid_and_user: ", instance)
+        if user_id == instance.user_id:
+            return False 
         return True
     except Movie.DoesNotExist:
         return False
@@ -89,7 +91,8 @@ def check_imdbid_and_user(user_id, imdb_id):
 
 def details(request, imdb_id):
     print("Debug - imdb_id: ", imdb_id)
-
+   
+    
     # Get movie details 
     url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdb_id
 
@@ -112,35 +115,37 @@ def details(request, imdb_id):
     # title = Movie.objects.get(imdb_id=imdb_id)
     # print("Debug - title/attributes: ", title.year)
 
-    exists = check_imdbid_and_user(request.user.id, imdb_id)
+    # exists = check_imdbid_and_user(request.user.id, imdb_id)
     
     # if Movie.objects.filter(imdb_id=imdb_id).exists()
-    if exists:
+    if Movie.objects.filter(imdb_id=imdb_id).exists():
         print("Debug - title exists")
         
         title = Movie.objects.get(imdb_id=imdb_id)
+        movie_pk = Movie.objects.get(pk=title.pk)
+        # movie_is_bookmarked = request.user in movie_pk.is_bookmarked.all()
+        all_comments = Comment.objects.filter(movie=movie_pk)
+        is_owner = request.user.username == movie_pk.user.username
         # print("Debug - local db title: ", title.pk)
         # context = title
         print("Debug - title: ", title)
+        return render(request, "movies/details.html", {
+            "movie": title,
+            "movie_pk": movie_pk,
+            # "in_watchlist": in_watchlist,
+            "all_comments": all_comments,
+            "is_owner": is_owner
+    })
 
     else:
         print("Debug - title not in local db")
         title = attributes
         print("Debug - context: ", title)
-
-    # print("Debug - attributes: ", attributes)   
-    # print("Debug - result: ", result)
-
-
-    # return render(request, "movies/details.html", {
-    #     "movie": attributes
-    # })
-
     return render(request, "movies/details.html", {
         "movie": title
     })
 
-
+    
 
 
 def like(request, movie_id):
@@ -188,20 +193,100 @@ def add_comment(request, id):
     current_user = request.user
     movie_data = Movie.objects.get(pk=id)
     message = request.POST['new_comment']
-   
-    print("Debug - current_user: ", current_user)
-
+    imdb = movie_data.imdb_id
+    print("Debug - imdb: ", imdb)
+        
+    # save comment to database
     new_comment = Comment(
-        author=current_user,
-        listing=movie_data,
+        author=current_user, 
+        movie=movie_data,
         message=message
-    )
+        )
     new_comment.save()
 
-    return HttpResponseRedirect(reverse("listing", args=(id, )))
+
+    # return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+    return HttpResponseRedirect(reverse("movie._details", args=(id)))
 
 
+    # if request.method == "POST":
 
+
+    #     return HttpResponseRedirect(reverse("profile", args=(id, )))
+
+    # else:
+    #     return render(request, "movie/details.html")
+    
+    
+
+    # current_user = request.user
+    # movie_data = Movie.objects.get(pk=id)
+    # message = request.POST['new_comment']
+   
+    # print("Debug - current_user: ", current_user)
+
+    # new_comment = Comment(
+    #     author=current_user,
+    #     listing=movie_data,
+    #     message=message
+    # )
+    # new_comment.save()
+
+    # return HttpResponseRedirect(reverse("listing", args=(id, )))
+
+
+# def save_title(request):
+#     imdb_id = request.POST["imdb_id"]
+#     print("Debug: imdb_id: ", imdb_id)
+#     if request.method == "GET":
+#         return render(request, "movies/details.html", {
+#         })
+#     elif request.method == "POST":
+#         user = request.user
+#         imdb_id = request.POST["imdb_id"]
+#         title = request.POST["title"]
+#         year = request.POST["year"]
+#         poster = request.POST["poster"]
+#         type = request.POST["type"]
+#         rated = request.POST["rated"]
+#         runtime = request.POST["runtime"]
+#         director = request.POST["director"]
+#         actors = request.POST["actors"]
+#         plot = request.POST["plot"]
+#         genre = request.POST["genre"]
+#         awards = request.POST["awards"]
+#         metascore = request.POST["metascore"]
+#         imdb_rating = request.POST["imdb_rating"]
+#         user = Movie(
+#             user=user,
+#             imdb_id=imdb_id,
+#             title=title,
+#             year=year,
+#             poster=poster,
+#             type=type,
+#             rated=rated,
+#             runtime=runtime,
+#             director=director,
+#             actors=actors,
+#             plot=plot,
+#             genre=genre,
+#             awards=awards,
+#             metascore=metascore,
+#             imdb_rating=imdb_rating
+#         )
+
+#         title = user.save()
+#         print("Debug: title: ", title)
+#         return title
+        
+        # print("Debug: user: ", user)
+
+        # return render(request, "movies/details.html", user{
+        # })
+    
+
+
+    
 def add_mylist(request):
     imdb_id = request.POST["imdb_id"]
     print("Debug - imdb_id: ", imdb_id)

@@ -46,13 +46,43 @@
       <input type="hidden" name="awards" class="form-control" id="awards" value="{{movie.awards}}">
       <input type="hidden" name="metascore" class="form-control" id="metascore" value="{{movie.metascore}}">
       <input type="hidden" name="imdb_rating" class="form-control" id="imdb_rating" value="{{movie.imdb_rating}}">
-   
+      {% if user.is_authenticated %}
       <button type="submit" class="btn btn-success">Add To My List</button>
+      {% endif %}
    </form>
    {% endif %}
 </div>
-
+<h6>{{movie.title}}</h6>
+<h6>Bookmarked?: {{movie.is_bookmarked}}</h6>
 <div class="row row-cols-1 row-cols-md-3 g-4">
+   <div class="container">
+      <div class="row justify-content-center">
+         <div class="ms-2 card" style="width: 35rem">
+            <div class="card-body rounded">
+               <h6 class="card-title">Comments {{comments.count}}</h6>
+               {% if user.is_authenticated and movie.is_bookmarked  %}
+               <form action="{% url 'add-comment' id=movie.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                     <textarea class="form-control" name="new_comment" rows="5"
+                        placeholder="What would you like to say?"></textarea>
+                  </div>
+                  <input type="submit" class="btn btn-primary float-end mt-3" value="Comment">
+               </form>
+               {% endif %}
+            </div>
+            {% for comment in all_comments %}
+            <div class="card-body">
+               <p class="card-text">Time: {{comment.timestamp}}</p>
+               <p class="card-text">Author: {{comment.author}}</p>
+               <p class="card-text">Message: {{comment.message}}</p>
+               <!-- <p class="card-text">Posted by: {{comment.user}}</p> -->
+            </div>
+            {% endfor %}
+         </div>
+      </div>
+   
+
 </div>
 
 <div class="d-flex p-4 justify-content-center">

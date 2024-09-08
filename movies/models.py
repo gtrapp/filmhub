@@ -22,6 +22,7 @@ class Movie(models.Model):
     awards = models.CharField(max_length=100)
     metascore = models.CharField(max_length=10)
     imdb_rating = models.CharField(max_length=10)
+    is_bookmarked = models.BooleanField(default=True)
     
     def __str__(self):
         return f"{self.user} {self.imdb_id} {self.title} {self.year} {self.poster} {self.type} {self.rated} {self.runtime} {self.director} {self.actors} {self.plot} {self.genre} {self.awards} {self.metascore} {self.imdb_rating}"
@@ -36,9 +37,11 @@ class Follow(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="_user_comment")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, blank=True, null=True, related_name="_movie_comment")
     message = models.CharField(max_length=200)
+    timestamp = models.DateTimeField(auto_now=True)
+    like = models.ManyToManyField(User, blank=True, related_name='likes')
 
     def __str__(self):
         return f"{self.author} comment on {self.movie}: {self.message}"
