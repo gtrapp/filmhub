@@ -296,7 +296,7 @@ def my_list(request, id):
 
 
     
-def add_mylist(request, id):
+def add_mylist(request):
     
     imdb_id = request.POST["imdb_id"]
     print("Debug - imdb_id: ", imdb_id)
