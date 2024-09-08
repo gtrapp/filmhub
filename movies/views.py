@@ -288,6 +288,14 @@ def add_comment(request, id):
     
 
 
+def my_list(request, id):
+    # Listing.objects.get(pk=id)
+    movie_data = Movie.objects.get(pk=id)
+    current_user = request.user
+    movie_data.watchlist.add(current_user)
+    return HttpResponseRedirect(reverse("details", args=(id, )))
+
+
     
 def add_mylist(request):
     
@@ -296,13 +304,13 @@ def add_mylist(request):
     
     # Movie.objects.filter(imdb_id).exists
     
-
     if request.method == "GET":
         return render(request, "movies/details.html", {
         })
     
     elif Movie.objects.filter(imdb_id=imdb_id).exists():
        print("Debug - Movie already exists")
+    #    my_list(request, imdb_id)
        return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
         
     elif request.method == "POST":
@@ -339,6 +347,7 @@ def add_mylist(request):
             imdb_rating=imdb_rating
         )
         user.save()
+        
 
         print("Debug - user: ", user.id)
      # return HttpResponseRedirect(reverse(index))

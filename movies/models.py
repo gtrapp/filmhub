@@ -8,7 +8,7 @@ class User(AbstractUser):
 
 class Movie(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="movie_user")
-    imdb_id = models.CharField(max_length=100)
+    imdb_id = models.CharField(unique=True, max_length=100)
     title = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
     poster = models.CharField(max_length=1000)
@@ -23,6 +23,7 @@ class Movie(models.Model):
     metascore = models.CharField(max_length=10)
     imdb_rating = models.CharField(max_length=10)
     is_bookmarked = models.BooleanField(default=True)
+    my_list = models.ManyToManyField(User, blank=True, null=True, related_name="_movie_mylist")
     
     def __str__(self):
         return f"{self.user} {self.imdb_id} {self.title} {self.year} {self.poster} {self.type} {self.rated} {self.runtime} {self.director} {self.actors} {self.plot} {self.genre} {self.awards} {self.metascore} {self.imdb_rating}"
