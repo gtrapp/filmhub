@@ -290,11 +290,21 @@ def add_comment(request, id):
 
     
 def add_mylist(request):
+    
     imdb_id = request.POST["imdb_id"]
     print("Debug - imdb_id: ", imdb_id)
+    
+    # Movie.objects.filter(imdb_id).exists
+    
+
     if request.method == "GET":
         return render(request, "movies/details.html", {
         })
+    
+    elif Movie.objects.filter(imdb_id=imdb_id).exists():
+       print("Debug - Movie already exists")
+       return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
+        
     elif request.method == "POST":
         user = request.user
         imdb_id = request.POST["imdb_id"]
