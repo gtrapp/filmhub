@@ -3,12 +3,12 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.core.paginator import Paginator   # Pagination functionality  
+from django.core.paginator import Paginator  # Pagination functionality
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 import requests
-import json # JSON functionality
+import json  # JSON functionality
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -18,7 +18,6 @@ def index(request):
 
 
 def top_rated(request):
-
     # all posts 5 per page
     movies = Movie.objects.all().order_by("imdb_rating").reverse()
     # print("Debug - top_rated: ", Movie.objects.all())
@@ -26,18 +25,10 @@ def top_rated(request):
     # movies = Movie.objects.all().order_by("imdbRating").reverse()
     paginator = Paginator(movies, 5)
 
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     # print("Debug | all posts:",posts)
-    return render(request, "movies/top-rated.html", {
-        "page_obj": page_obj
-    })
-
-
-# @login_required(redirect_field_name='my_redirect_field')
-def profile(request, profile):
-    return render(request, "movies/profile.html")
-
+    return render(request, "movies/top-rated.html", {"page_obj": page_obj})
 
 
 def search(request):
@@ -51,7 +42,7 @@ def search(request):
         # Search OMDb API  user-provided search term (keyword)
         keyword = request.POST["keyword"]
         url = "https://www.omdbapi.com/?apikey=91050fbc&s=" + keyword
-        
+
         # OMDb API response
         results = []
         response = requests.get(url)
@@ -60,34 +51,32 @@ def search(request):
 
         for movie in movies:
             title = {}
-            title.update({'imdb_id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'poster': movie['Poster'], 'type': movie['Type']})
-            
+            title.update(
+                {
+                    "imdb_id": movie["imdbID"],
+                    "title": movie["Title"],
+                    "year": movie["Year"],
+                    "poster": movie["Poster"],
+                    "type": movie["Type"],
+                }
+            )
+
             results.append(title)
 
         if not movies:
-            return render(request, "movies/search.html", {
-                "message": "No movies found."
-            })
+            return render(
+                request, "movies/search.html", {"message": "No movies found."}
+            )
         elif movies:
-            return render(request, "movies/search.html", {
-                "movies": results,
-                "keyword": keyword
-
-            })
-
-
-
+            return render(
+                request, "movies/search.html", {"movies": results, "keyword": keyword}
+            )
 
 
 def watchlist(request, user_id):
     current_user = user_id
     my_list = current_user._movie_mylist.all()
-    return render(request, "movies/profile.html", {
-        "movies": my_list
-    })
-
-
-
+    return render(request, "movies/profile.html", {"movies": my_list})
 
 
 def check_imdbid_and_user(user_id, imdb_id):
@@ -96,21 +85,15 @@ def check_imdbid_and_user(user_id, imdb_id):
         instance = Movie.objects.get(user_id=user_id, imdb_id=imdb_id)
         print("Debug: check_imdbid_and_user: ", instance)
         if user_id == instance.user_id:
-            return False 
+            return False
         return True
     except Movie.DoesNotExist:
         return False
-    
-
-
-
 
 
 def details(request, imdb_id):
-    print("Debug - imdb_id: ", imdb_id)
-   
-    
-    # Get movie details 
+
+    # Get movie details
     url = "https://www.omdbapi.com/?apikey=91050fbc&plot=full&i=" + imdb_id
 
     result = []
@@ -119,31 +102,41 @@ def details(request, imdb_id):
     jsonResponse = response.json()
     movie = jsonResponse
 
-    # print("Debug - movie: ", movie)
-    
     attributes = {}
-    
-    if movie: attributes.update({'imdb_id': movie['imdbID'], 'title': movie['Title'], 'year': movie['Year'], 'rated': movie['Rated'], 'released': movie['Released'], 'plot': movie['Plot'], 'poster': movie['Poster'], 'type': movie['Type'], 'runtime': movie['Runtime'], 'genre': movie['Genre'], 'director': movie['Director'], 'actors': movie['Actors'], 'language': movie['Language'], 'awards': movie['Awards'], 'metascore': movie['Metascore'], 'votes': movie['imdbVotes'], 'imdb_rating': movie['imdbRating']}) 
-  
+
+    if movie:
+        attributes.update(
+            {
+                "imdb_id": movie["imdbID"],
+                "title": movie["Title"],
+                "year": movie["Year"],
+                "rated": movie["Rated"],
+                "released": movie["Released"],
+                "plot": movie["Plot"],
+                "poster": movie["Poster"],
+                "type": movie["Type"],
+                "runtime": movie["Runtime"],
+                "genre": movie["Genre"],
+                "director": movie["Director"],
+                "actors": movie["Actors"],
+                "language": movie["Language"],
+                "awards": movie["Awards"],
+                "metascore": movie["Metascore"],
+                "votes": movie["imdbVotes"],
+                "imdb_rating": movie["imdbRating"],
+            }
+        )
+
     result = result.append(attributes)
 
-    # Movie.objects.filter(imdb_id=imdb_id).update(imdb_rating=movie['imdbRating'])
-    # Movie.objects.filter(imdb_id=imdb_id).update(imdb_votes=movie['imdbVotes'])
-    # title = Movie.objects.get(imdb_id=imdb_id)
-    # print("Debug - title/attributes: ", title.year)
-
-    # exists = check_imdbid_and_user(request.user.id, imdb_id)
-    
-    # if Movie.objects.filter(imdb_id=imdb_id).exists()
     if Movie.objects.filter(imdb_id=imdb_id).exists():
         print("1) title exists")
-        
+
         title = Movie.objects.get(imdb_id=imdb_id)
         movie_pk = Movie.objects.get(pk=title.pk)
         # movie_is_bookmarked = request.user in movie_pk.is_bookmarked.all()
         all_comments = Comment.objects.filter(movie=movie_pk)
         is_owner = request.user.username == movie_pk.user.username
-       
         movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
         movie_pk = movie_instance.pk
         movie_data = Movie.objects.get(pk=movie_pk)
@@ -151,25 +144,24 @@ def details(request, imdb_id):
         current_user = request.user
         movie_data.my_list.add(current_user)
 
-
         print("2) - movie_instance: ", movie_instance.imdb_id)
-        return render(request, "movies/details.html", {
-            "movie": title,
-            "movie_pk": movie_pk,
-            # "in_watchlist": in_watchlist,
-            "all_comments": all_comments,
-            "is_owner": is_owner
-    })
-
+        return render(
+            request,
+            "movies/details.html",
+            {
+                "movie": title,
+                "movie_pk": movie_pk,
+                # "in_watchlist": in_watchlist,
+                "all_comments": all_comments,
+                "is_owner": is_owner,
+            },
+        )
     else:
         print("3) - title not in local db")
         title = attributes
         print("4) - title: ", title)
-    return render(request, "movies/details.html", {
-        "movie": title
-    })
 
-    
+    return render(request, "movies/details.html", {"movie": title})
 
 
 def like(request, movie_id):
@@ -179,15 +171,12 @@ def like(request, movie_id):
     # Get user and relevant movie
     user = User.objects.get(id=request.user.id)
     # movie = Movie.objects.get(id=movie_id)
-    imdb_id = request.POST.get( movie_id)
+    imdb_id = request.POST.get(movie_id)
 
     print("Debug | user: ", user)
     print("Debug | movie_id: ", imdb_id)
-    
-    add_movie = Movie(
-        imdb_id = imdb_id,
-        like_by = user
-     )
+
+    add_movie = Movie(imdb_id=imdb_id, like_by=user)
 
     add_movie.save()
     # print("Debug | movie: ", movie)
@@ -204,27 +193,20 @@ def like(request, movie_id):
     return JsonResponse({"message": "Post liked / disliked"})
 
 
-
 def add_comment(request, id):
     current_user = request.user
     movie_data = Movie.objects.get(pk=id)
-    message = request.POST['new_comment']
+    message = request.POST["new_comment"]
     imdb = movie_data.imdb_id
     print("Debug - imdb: ", imdb)
-        
+
     # save comment to database
-    new_comment = Comment(
-        author=current_user, 
-        movie=movie_data,
-        message=message
-        )
+    new_comment = Comment(author=current_user, movie=movie_data, message=message)
     new_comment.save()
 
     imdb_id = movie_data.imdb_id
 
-
-    return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
-    
+    return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
 
 def my_list(request, id):
@@ -232,33 +214,27 @@ def my_list(request, id):
     movie_instance = Movie.objects.get(pk=id)
     current_user = request.user
     movie_instance.my_list.add(current_user)
-    return HttpResponseRedirect(reverse("_details", args=(movie_instance.id, )))
+    return HttpResponseRedirect(reverse("_details", args=(movie_instance.id,)))
 
 
-    
 def add_mylist(request):
-    
+
     imdb_id = request.POST["imdb_id"]
     print("add_mylist-imdb_id: ", imdb_id)
     movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
 
     print("HELLO WORLD: ", movie_instance)
 
-
-    # Movie.objects.filter(imdb_id).exists
-  
     if request.method == "GET":
-        return render(request, "movies/index.html", {
-        })
-    
+        return render(request, "movies/index.html", {})
+
     elif Movie.objects.filter(imdb_id=imdb_id).exists():
         movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
         movie_id = movie_instance.id
         print("add_mylist-movie_id: ", movie_id)
-       
+
         # my_list(request, movie_id)a
-       
-     
+
     elif request.method == "POST":
         user = request.user
         imdb_id = request.POST["imdb_id"]
@@ -290,22 +266,16 @@ def add_mylist(request):
             genre=genre,
             awards=awards,
             metascore=metascore,
-            imdb_rating=imdb_rating
+            imdb_rating=imdb_rating,
         )
         user.save()
-        
 
         print("Debug - user: ", user.id)
-     # return HttpResponseRedirect(reverse(index))
-    # print("Debug - current_usert: ", current_user)
-    # movie_id = Movie.objects.get(pk=id)
-    # print("Debug - movie_id: ", movie_id)
-    # movie_data = Movie.objects.get(pk=id)
-    current_user = request.user
-    print("DEBUG current_user: ", current_user )
-    # movie_data.mylist.add(current_user)
-    return HttpResponseRedirect(reverse("_details", args=(imdb_id, )))
 
+    current_user = request.user
+    print("DEBUG current_user: ", current_user)
+    # movie_data.mylist.add(current_user)
+    return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
 
 # def add_watchlist(request, id):
@@ -327,10 +297,10 @@ def mylist(request, id):
     #     return render(request, "movies/add_mylist.html")
 
 
-
+# TODO
 def profile(request, user_id):
-    user_name = User.objects.get(id=user_id).username
-    print("PROFILE user_id: ", user_id, user_name)
+    user = User.objects.get(pk=user_id)
+    # print("PROFILE user_id: ", user_id, user_name)
     # Get profile
     profile = User.objects.get(id=user_id)
 
@@ -341,76 +311,75 @@ def profile(request, user_id):
     else:
         # print("Debug | user is NOT following profile")
         following_status = False
-   
+
     # Get list of IDs of people the logged in user follows (Follow objects)
     follow_list = []
     following = request.user._following.all()
     for x in following:
         follow_list.append(x.user.id)
-    
-     
+
     # Gets movies from profile in reverse chronological order
     # movies = Movie.objects.filter(user=user_id).order_by("id").reverse()
-    
+
     current_user = request.user
     print("PROFILE current_user: ", current_user)
     movies = current_user._movie_mylist.all()
-    
+
     print("PROFILE movies: <QuerySet")
 
     paginator = Paginator(movies, 10)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "movies/profile.html", {
-        "page_obj": page_obj,
-        "viewed_profile": profile.username,
-        "viewed_profile_id": user_id,
-        "movies": movies,
-        "following": profile._following.all().count(),
-        "followed_by": Follow.objects.filter(user=user_id).count(),
-        "following_status": following_status
-    })
-
+    return render(
+        request,
+        "movies/profile.html",
+        {
+            "page_obj": page_obj,
+            "viewed_profile": profile.username,
+            "viewed_profile_id": user_id,
+            "movies": movies,
+            "following": profile._following.all().count(),
+            "followed_by": Follow.objects.filter(user=user_id).count(),
+            "following_status": following_status,
+        },
+    )
 
 
 def following(request):
 
     # Gets all profiles user follows
     users_followed = request.user._following.all()
-  
+
     # Make list of IDs
     users_followed_ids = []
     for x in users_followed:
-        users_followed_ids.append(x.user.id) # add the user id of the user who clicked
+        users_followed_ids.append(x.user.id)  # add the user id of the user who clicked
 
     # print("Debug | User follows: ", users_followed_ids)
-    
+
     # Gets posts from profiles in reverse chronological order
     posts = Movie.objects.filter(author__in=users_followed_ids).order_by("id").reverse()
-    
+
     paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "movie/following.html", {
-        "page_obj": page_obj
-    })
-
+    return render(request, "movie/following.html", {"page_obj": page_obj})
 
 
 def follow(request, user_id):
-    # Get user 
+    # Get user
     user = User.objects.get(pk=request.user.id)
     print("Debug:", user, type(user), user._following.all())
-    
+
     # Get profile being viewed
     profile = User.objects.get(pk=user_id)
     # print("Debug:", profile, type(profile), profile.following.all())
 
     # Check if user already follows profile. If so, remove
-    if Follow.objects.filter(user=profile, followed_by=user).exists():        
-      
+    if Follow.objects.filter(user=profile, followed_by=user).exists():
+
         # print("Debug: user currently following profile")
         instance = Follow.objects.filter(user=profile, followed_by=user).get()
 
@@ -425,7 +394,7 @@ def follow(request, user_id):
         # print("Debug: user no longer following profile")
 
     else:
-        
+
         # print("Debug: user NOT currently following profile")
         instance = Follow(user=profile)
         instance.save()
@@ -433,29 +402,31 @@ def follow(request, user_id):
         instance.followed_by.add(user)
         # print("Debug: user now following profile")
 
-    return JsonResponse({"message": "Profile successfully followed / unfollowed"}, status=201)
-    
+    return JsonResponse(
+        {"message": "Profile successfully followed / unfollowed"}, status=201
+    )
+
 
 # @csrf_exempt
 def edit(request, post_id):
 
     print("Debug | Edit function, movie: ", post_id)
- 
+
     # Get original movie
     movie = Movie.objects.get(pk=post_id)
 
     # Gets new text (edited) in JSON format
     data = json.loads(request.body)
     new_content = data.get("movie", "t")
-    
+
     # Update movie to new text
     movie.content = new_content
     movie.save()
 
     # Return new text for instant display
-    return JsonResponse({"message": "Movie successfully edited", "new_text": new_content}, status=201)
-
-
+    return JsonResponse(
+        {"message": "Movie successfully edited", "new_text": new_content}, status=201
+    )
 
 
 # Log user in
@@ -472,9 +443,11 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "movies/login.html", {
-                "message": "Invalid username and/or password."
-            })
+            return render(
+                request,
+                "movies/login.html",
+                {"message": "Invalid username and/or password."},
+            )
     else:
         return render(request, "movies/login.html")
 
@@ -496,18 +469,18 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "movies/register.html", {
-                "message": "Passwords must match."
-            })
+            return render(
+                request, "movies/register.html", {"message": "Passwords must match."}
+            )
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "movies/register.html", {
-                "message": "Username already taken."
-            })
+            return render(
+                request, "movies/register.html", {"message": "Username already taken."}
+            )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
