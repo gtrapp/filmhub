@@ -1,22 +1,21 @@
+<!-- templates/video_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Page</title>
+    <title>IMDb Video Scraper</title>
 </head>
 <body>
-    <h1>Video from IMDb Page</h1>
-
-    <p>Video Source: {{ video_src }}</p>  <!-- For debugging -->
+    <h1>IMDb Video Scraper</h1>
 
     {% if video_src %}
-        <video width="600" controls>
-            <source src="{{ video_src }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <h2>Video URL Found:</h2>
+        <p><a href="{{ video_src }}" target="_blank">{{ video_src }}</a></p>
+        <h3>Embedded Video:</h3>
+        <iframe src="{{ video_src }}" width="560" height="315" frameborder="0" allowfullscreen></iframe>
     {% else %}
-        <p>Sorry, no video found on this page.</p>
+        <h2>No Video URL Found.</h2>
     {% endif %}
 </body>
 </html>

@@ -13,8 +13,11 @@ urlpatterns = [
     path("details/<str:imdb_id>", views.details, name="_details"),
   
     path("top_rated", views.top_rated, name="_top_rated"),
+
+
+    path('scrape-video/', views.scrape_video_src, name='scrape_video_src'),
     
-    path('get_video/', views.get_video, name='_get_video'),
+    # path('get_video/', views.get_video, name='_get_video'),
     # path("popular", views.popular, name="_popular"),
     # path("movie/<str:imdb_id>", views.movie, name="_movie"),
     # path("upcoming", views.upcoming, name="_upcoming"),

@@ -10,33 +10,52 @@ from .models import *
 import requests
 import json  # JSON functionality
 from django.core.exceptions import ObjectDoesNotExist
-from bs4 import BeautifulSoup
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from django.http import JsonResponse
+import os
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 
 
-def get_video(request):
-    # URL of the IMDb page
-    url = 'https://www.imdb.com/title/tt0237534/'
+def get_selenium_driver():
+    chrome_driver_path = '/Users/george/bin/chromedriver/'
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run in headless mode
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
+    service = Service(executable_path=chrome_driver_path)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    
+    return driver
+
+def scrape_video_src(request):
+    driver = get_selenium_driver()
+    video_src = None
     
     try:
-        # Fetch the webpage
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an HTTPError for bad responses (4XX, 5XX)
-    except requests.exceptions.RequestException as e:
-        return render(request, 'movies/error_movie.html', {'message': 'Failed to retrieve the page. Error: {}'.format(str(e))})
-
-    # Parse the page content
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    # Find the video tag or other relevant elements
-    video_tag = soup.find('video')
-
-    if video_tag and video_tag.get('src'):
-        video_src = video_tag['src']
-    else:
-        video_src = None
-
-    # Render the template and pass the video_src variable
+        driver.get('https://www.imdb.com/title/tt0237534/')
+        driver.implicitly_wait(10)
+        
+        iframe = driver.find_element(By.TAG_NAME, 'iframe')
+        if iframe:
+            video_src = iframe.get_attribute('src')
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+    
+    finally:
+        driver.quit()
+    
+    # Render the HTML template and pass the video_src to it
     return render(request, 'movies/movie.html', {'video_src': video_src})
 
 
