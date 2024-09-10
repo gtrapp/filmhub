@@ -23,8 +23,31 @@
          <a href="https://www.imdb.com/title/{{movie.imdb_id}}/" target="_blank"
             class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdb_id}}</a>
       </div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+         Watch Trailer
+      </button>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  ...
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
-   
+
    {% if in_watchlist %}
    <form action="{% url '_remove_mylist' %}" method="POST">
       <button type="submit" class="btn btn-danger">Remove From My List</button>
@@ -60,7 +83,7 @@
          <div class="ms-2 card" style="width: 35rem">
             <div class="card-body rounded">
                <h6 class="card-title">Comments {{comments.count}}</h6>
-               {% if user.is_authenticated and movie.is_bookmarked  %}
+               {% if user.is_authenticated and movie.is_bookmarked %}
                <form action="{% url 'add-comment' id=movie.id %}" method="POST">
                   {% csrf_token %}
                   <div class="form-group">
@@ -81,62 +104,62 @@
             {% endfor %}
          </div>
       </div>
-   
-
-</div>
-
-<div class="d-flex p-4 justify-content-center">
-
-</div>
-</br>
-</br>
 
 
-<script>
-   document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('button').forEach(button => {
-         button.onclick = function () {
+   </div>
 
-            // Detects if LIKE button clicked
-            if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
-               console.log(`Like button clicked. Post number: ${this.parentElement.parentElement.dataset.id}`)
+   <div class="d-flex p-4 justify-content-center">
 
-               const element = event.target
-               const id = element.parentElement.parentElement.dataset.id
+   </div>
+   </br>
+   </br>
 
-               console.log(`Movie ID: ${id}`)
 
-               // Update database then HTML
-               fetch(`/like/${id}`), {
-                  method: 'POST'
+   <script>
+      document.addEventListener('DOMContentLoaded', function () {
+         document.querySelectorAll('button').forEach(button => {
+            button.onclick = function () {
+
+               // Detects if LIKE button clicked
+               if (this.className === "btn btn-secondary float-left" || this.className === "btn btn-danger float-left") {
+                  console.log(`Like button clicked. Post number: ${this.parentElement.parentElement.dataset.id}`)
+
+                  const element = event.target
+                  const id = element.parentElement.parentElement.dataset.id
+
+                  console.log(`Movie ID: ${id}`)
+
+                  // Update database then HTML
+                  fetch(`/like/${id}`), {
+                     method: 'POST'
+                  }
+                  like(element);
                }
-               like(element);
             }
-         }
+         });
       });
-   });
 
-   function like(post) {
+      function like(post) {
 
-      // Get current number of likes
-      var likes = post.querySelector("#number").innerHTML
+         // Get current number of likes
+         var likes = post.querySelector("#number").innerHTML
 
-      // Increment / deincrement number of likes and change colour of button
-      if (post.classList.contains("btn-secondary")) {
+         // Increment / deincrement number of likes and change colour of button
+         if (post.classList.contains("btn-secondary")) {
 
-         post.className = "btn btn-danger float-left";
-         likes++
-         post.querySelector("#number").innerHTML = likes
+            post.className = "btn btn-danger float-left";
+            likes++
+            post.querySelector("#number").innerHTML = likes
 
-      } else {
+         } else {
 
-         post.className = "btn btn-secondary float-left";
-         likes--
-         post.querySelector("#number").innerHTML = likes
+            post.className = "btn btn-secondary float-left";
+            likes--
+            post.querySelector("#number").innerHTML = likes
+         }
       }
-   }
 
-</script>
+   </script>
 
-{% endblock %}
+   {% endblock %}
 </div>

@@ -14,6 +14,12 @@ urlpatterns = [
   
     path("top_rated", views.top_rated, name="_top_rated"),
     
+    path('get_video/', views.get_video, name='_get_video'),
+    # path("popular", views.popular, name="_popular"),
+    # path("movie/<str:imdb_id>", views.movie, name="_movie"),
+    # path("upcoming", views.upcoming, name="_upcoming"),
+    # path("now_playing", views.now_playing, name="_now_playing"),
+    
     # API routes
     path("unfollow", views.unfollow, name="unfollow"),
     path("follow", views.follow, name="follow"),

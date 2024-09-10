@@ -10,10 +10,42 @@ from .models import *
 import requests
 import json  # JSON functionality
 from django.core.exceptions import ObjectDoesNotExist
+from bs4 import BeautifulSoup
+
+
+
+def get_video(request):
+    # URL of the IMDb page
+    url = 'https://www.imdb.com/title/tt0237534/'
+    
+    try:
+        # Fetch the webpage
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an HTTPError for bad responses (4XX, 5XX)
+    except requests.exceptions.RequestException as e:
+        return render(request, 'movies/error_movie.html', {'message': 'Failed to retrieve the page. Error: {}'.format(str(e))})
+
+    # Parse the page content
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find the video tag or other relevant elements
+    video_tag = soup.find('video')
+
+    if video_tag and video_tag.get('src'):
+        video_src = video_tag['src']
+    else:
+        video_src = None
+
+    # Render the template and pass the video_src variable
+    return render(request, 'movies/movie.html', {'video_src': video_src})
+
+
+
 
 
 # Create your views here.
 def index(request):
+    
     return render(request, "movies/index.html")
 
 
