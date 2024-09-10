@@ -21,19 +21,17 @@ def top_rated(request):
 
     # all posts 5 per page
     movies = Movie.objects.all().order_by("imdb_rating").reverse()
-    print("Debug - top_rated: ", Movie.objects.all())
+    # print("Debug - top_rated: ", Movie.objects.all())
+    print("Debug - top_rated: Movie  <QuerySet")
     # movies = Movie.objects.all().order_by("imdbRating").reverse()
     paginator = Paginator(movies, 5)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     # print("Debug | all posts:",posts)
-
     return render(request, "movies/top-rated.html", {
         "page_obj": page_obj
     })
-
 
 
 # @login_required(redirect_field_name='my_redirect_field')
@@ -81,8 +79,8 @@ def search(request):
 
 
 
-def watchlist(request):
-    current_user = request.user
+def watchlist(request, user_id):
+    current_user = user_id
     my_list = current_user._movie_mylist.all()
     return render(request, "movies/profile.html", {
         "movies": my_list
@@ -331,6 +329,8 @@ def mylist(request, id):
 
 
 def profile(request, user_id):
+    user_name = User.objects.get(id=user_id).username
+    print("PROFILE user_id: ", user_id, user_name)
     # Get profile
     profile = User.objects.get(id=user_id)
 
@@ -353,8 +353,10 @@ def profile(request, user_id):
     # movies = Movie.objects.filter(user=user_id).order_by("id").reverse()
     
     current_user = request.user
+    print("PROFILE current_user: ", current_user)
     movies = current_user._movie_mylist.all()
-    # print("Debug | profile's movies: ",movies)
+    
+    print("PROFILE movies: <QuerySet")
 
     paginator = Paginator(movies, 10)
     page_number = request.GET.get('page')
