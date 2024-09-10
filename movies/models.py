@@ -31,7 +31,7 @@ class Movie(models.Model):
 
 class Follow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="_user")
-    followed_by = models.ManyToManyField(User, blank=True, related_name="_following")
+    followed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="_following")
 
     def __str__(self):
         return f"{self.user} is followed by: {self.followed_by}"

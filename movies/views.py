@@ -90,7 +90,7 @@ def check_imdbid_and_user(user_id, imdb_id):
     except Movie.DoesNotExist:
         return False
 
-
+# TODO
 def details(request, imdb_id):
 
     # Get movie details
@@ -217,6 +217,7 @@ def my_list(request, id):
     return HttpResponseRedirect(reverse("_details", args=(movie_instance.id,)))
 
 
+# TODO
 def add_mylist(request):
 
     imdb_id = request.POST["imdb_id"]
@@ -300,111 +301,78 @@ def mylist(request, id):
 # TODO
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)
-    # print("PROFILE user_id: ", user_id, user_name)
-    # Get profile
-    profile = User.objects.get(id=user_id)
+    print("Debug | user: ", user)
+    all_movies = Movie.objects.filter(user=user).order_by("id").reverse()
 
-    # Check if user follows profile
-    if Follow.objects.filter(user=user_id, followed_by=request.user).exists():
-        # print("Debug | user is following profile")
-        following_status = True
-    else:
-        # print("Debug | user is NOT following profile")
-        following_status = False
+    following = Follow.objects.filter(user=user)
+    followers = Follow.objects.filter(followed_by=user)
+    
+    try:
+        check_follow = followers.filter(user=User.objects.get(pk=request.user.id))
+        if len(check_follow) != 0:
+            is_following = True
+        else:
+            is_following = False
+    except: 
+        is_following = False
 
-    # Get list of IDs of people the logged in user follows (Follow objects)
-    follow_list = []
-    following = request.user._following.all()
-    for x in following:
-        follow_list.append(x.user.id)
-
-    # Gets movies from profile in reverse chronological order
-    # movies = Movie.objects.filter(user=user_id).order_by("id").reverse()
-
-    current_user = request.user
-    print("PROFILE current_user: ", current_user)
-    movies = current_user._movie_mylist.all()
-
-    print("PROFILE movies: <QuerySet")
-
-    paginator = Paginator(movies, 10)
+    paginator = Paginator(all_movies, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(
-        request,
-        "movies/profile.html",
-        {
+    return render(request, "movies/profile.html", {
+            "all_movies": all_movies,
             "page_obj": page_obj,
-            "viewed_profile": profile.username,
-            "viewed_profile_id": user_id,
-            "movies": movies,
-            "following": profile._following.all().count(),
-            "followed_by": Follow.objects.filter(user=user_id).count(),
-            "following_status": following_status,
-        },
-    )
+            "username": user.username,
+            "following": following, 
+            "followers": followers,
+            "is_following": is_following,
+            "user_profile": user
+        })
+
 
 
 def following(request):
+    current_user = User.objects.get(pk=request.user.id)
+    following_people = Follow.objects.filter(user=current_user)
+    all_movies = Movie.objects.all().order_by('id').reverse()
 
-    # Gets all profiles user follows
-    users_followed = request.user._following.all()
+    following_posts = []
 
-    # Make list of IDs
-    users_followed_ids = []
-    for x in users_followed:
-        users_followed_ids.append(x.user.id)  # add the user id of the user who clicked
+    for post in all_movies:
+        for person in following_people:
+            if person.followed_by == post.user:
+                following_posts.append(post)
 
-    # print("Debug | User follows: ", users_followed_ids)
+    # Pagination
+    paginator = Paginator(following_posts, 3 )
+    page_number = request.GET.get('page')
+    posts_of_the_page = paginator.get_page(page_number)
 
-    # Gets posts from profiles in reverse chronological order
-    posts = Movie.objects.filter(author__in=users_followed_ids).order_by("id").reverse()
-
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, "movie/following.html", {"page_obj": page_obj})
+    return render(request, "movies/following.html", {
+        "posts_of_the_page": posts_of_the_page
+    })
 
 
-def follow(request, user_id):
-    # Get user
-    user = User.objects.get(pk=request.user.id)
-    print("Debug:", user, type(user), user._following.all())
 
-    # Get profile being viewed
-    profile = User.objects.get(pk=user_id)
-    # print("Debug:", profile, type(profile), profile.following.all())
+def follow(request):
+    user_follow = request.POST['user_follow']
+    current_user = User.objects.get(pk=request.user.id)
+    user_follow_data = User.objects.get(username=user_follow)
+    f = Follow(user=current_user, followed_by=user_follow_data)
+    f.save()
+    user_id = user_follow_data.id
+    return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id}))
 
-    # Check if user already follows profile. If so, remove
-    if Follow.objects.filter(user=profile, followed_by=user).exists():
 
-        # print("Debug: user currently following profile")
-        instance = Follow.objects.filter(user=profile, followed_by=user).get()
-
-        user._following.remove(instance)
-
-        # If empty ManyToMany field, delete relationship
-        a = Follow.objects.filter(user=profile)
-        for x in a:
-            if not x.followed_by.exists():
-                x.delete()
-
-        # print("Debug: user no longer following profile")
-
-    else:
-
-        # print("Debug: user NOT currently following profile")
-        instance = Follow(user=profile)
-        instance.save()
-
-        instance.followed_by.add(user)
-        # print("Debug: user now following profile")
-
-    return JsonResponse(
-        {"message": "Profile successfully followed / unfollowed"}, status=201
-    )
+def unfollow(request):
+    user_follow = request.POST['user_follow']
+    current_user = User.objects.get(pk=request.user.id)
+    user_follow_data = User.objects.get(username=user_follow)
+    f = Follow.objects.get(user=current_user, followed_by=user_follow_data)
+    f.delete()
+    user_id = user_follow_data.id
+    return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id})) 
 
 
 # @csrf_exempt

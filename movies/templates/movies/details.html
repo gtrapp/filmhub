@@ -24,6 +24,7 @@
             class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdb_id}}</a>
       </div>
    </div>
+   
    {% if in_watchlist %}
    <form action="{% url '_remove_mylist' %}" method="POST">
       <button type="submit" class="btn btn-danger">Remove From My List</button>
@@ -31,7 +32,6 @@
    {% else %}
    <form action="{% url '_add_mylist' %}" method="POST">
       {% csrf_token %}
-      
       <input type="hidden" name="imdb_id" class="form-control" id="imdb_id" value="{{movie.imdb_id}}">
       <input type="hidden" name="title" class="form-control" id="title" value="{{movie.title}}">
       <input type="hidden" name="year" class="form-control" id="year" value="{{movie.year}}">

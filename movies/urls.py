@@ -15,7 +15,10 @@ urlpatterns = [
     path("top_rated", views.top_rated, name="_top_rated"),
     
     # API routes
-    path("follow/<int:user_id>", views.follow, name="follow"),
+    path("unfollow", views.unfollow, name="unfollow"),
+    path("follow", views.follow, name="follow"),
+    path("following", views.following, name="following"),
+
     path("like/<str:movie_id>", views.like, name="_like"),
     path("add_mylist", views.add_mylist, name="_add_mylist"),
     path("remove_mylist/<str:id>", views.remove_mylist, name="_remove_mylist"),
