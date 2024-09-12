@@ -11,60 +11,9 @@ import requests
 import json  # JSON functionality
 from django.core.exceptions import ObjectDoesNotExist
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from django.http import JsonResponse
-import os
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-
-
-
-def get_selenium_driver():
-    chrome_driver_path = '/Users/george/bin/chromedriver/'
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    
-    service = Service(executable_path=chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    
-    return driver
-
-def scrape_video_src(request):
-    driver = get_selenium_driver()
-    video_src = None
-    
-    try:
-        driver.get('https://www.imdb.com/title/tt0237534/')
-        driver.implicitly_wait(10)
-        
-        iframe = driver.find_element(By.TAG_NAME, 'iframe')
-        if iframe:
-            video_src = iframe.get_attribute('src')
-    
-    except Exception as e:
-        print(f"Error: {str(e)}")
-    
-    finally:
-        driver.quit()
-    
-    # Render the HTML template and pass the video_src to it
-    return render(request, 'movies/movie.html', {'video_src': video_src})
-
-
-
-
 
 # Create your views here.
-def index(request):
-    
+def index(request):    
     return render(request, "movies/index.html")
 
 
@@ -274,7 +223,6 @@ def add_mylist(request):
     imdb_id = request.POST["imdb_id"]
     print("add_mylist-imdb_id: ", imdb_id)
     movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
-
     print("HELLO WORLD: ", movie_instance)
 
     if request.method == "GET":
@@ -282,10 +230,9 @@ def add_mylist(request):
 
     elif Movie.objects.filter(imdb_id=imdb_id).exists():
         movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
+        print("add_mylist-movie_instance: ", movie_instance) # id 1 george
         movie_id = movie_instance.id
         print("add_mylist-movie_id: ", movie_id)
-
-        # my_list(request, movie_id)a
 
     elif request.method == "POST":
         user = request.user
@@ -329,18 +276,24 @@ def add_mylist(request):
     # movie_data.mylist.add(current_user)
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
-
-# def add_watchlist(request, id):
-#     Movie.objects.get(pk=id)
-#     movie_data = Movie.objects.get(pk=id)
-#     current_user = request.user
-#     movie_data.watchlist.add(current_user)
-#     return HttpResponseRedirect(reverse("listing", args=(id, )))
-
-
+# TODO fix this logic
 def remove_mylist(request, id):
-    print("Debug - remove_mylist: ", id)
-    # return render(request, "movies/remove_mylist.html")
+    # user_follow = request.POST['user_follow']
+    current_user = User.objects.get(pk=request.user.id)
+    # print("Debug - current_user: ", current_user)
+    # user_follow_data = User.objects.get(username=user_follow)
+    # f = Movie.objects.get(user=current_user, my_list=current_user)
+    # f.delete()
+    movie_instance = Movie.objects.filter(my_list=id).first()
+    movie_pk = movie_instance.pk
+    movie_data = Movie.objects.get(pk=movie_pk)
+    # print("PK - movie_instance.pk: ", movie_instance.pk)
+    # current_user = request.user
+    print("Debug - current_user: ", current_user)
+    movie_data.my_list.remove(current_user)
+
+    return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id})) 
+
 
 
 def mylist(request, id):
@@ -354,6 +307,7 @@ def profile(request, user_id):
     user = User.objects.get(pk=user_id)
     print("Debug | user: ", user)
     all_movies = Movie.objects.filter(user=user).order_by("id").reverse()
+    my_list = user._movie_mylist.all()
 
     following = Follow.objects.filter(user=user)
     followers = Follow.objects.filter(followed_by=user)
@@ -378,9 +332,9 @@ def profile(request, user_id):
             "following": following, 
             "followers": followers,
             "is_following": is_following,
-            "user_profile": user
+            "user_profile": user,
+            "my_list": my_list
         })
-
 
 
 def following(request):
@@ -403,7 +357,6 @@ def following(request):
     return render(request, "movies/following.html", {
         "posts_of_the_page": posts_of_the_page
     })
-
 
 
 def follow(request):

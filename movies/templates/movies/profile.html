@@ -50,13 +50,12 @@
 </div>
 <hr>
 <br>
-
+<!-- Movie.objects.filter(my_list=user) -->
    <!-- Show paginated movies -->
    <div class="profile row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+
       <!-- TODO: Get a title that is already in George's list also showing in Alma's list -->
-      {% for movie in page_obj %}
-      {{ all_movies.count }}
-      
+      {% for movie in my_list %} 
       <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}" ;>
          <!-- <div class="card-body rounded"> -->
          <h4 class="card-title"><a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{ movie.user}}</b></h4></a>

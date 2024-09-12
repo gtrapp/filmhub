@@ -46,3 +46,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.author} comment on {self.movie}: {self.message}"
+    
