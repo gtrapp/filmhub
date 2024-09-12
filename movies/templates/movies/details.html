@@ -50,9 +50,10 @@
    <!-- TODO: add / remove button -->
 <h2>hello world: {{user}}</h2>
    {% if user in movie.my_list.all %}
-   <form action="{% url '_remove_mylist' user %}" method="POST">
+   <form action="{% url '_remove_mylist' %}" method="POST">
       {% csrf_token %}
       <!-- <input type="hidden" name="in" -->
+      <input type="hidden" name="imdb_id" class="form-control" id="imdb_id" value="{{movie.imdb_id}}"> 
       <button type="submit" class="btn btn-danger">Remove From My List</button>
    </form>
    {% else %}

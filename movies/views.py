@@ -137,14 +137,9 @@ def details(request, imdb_id):
         # movie_is_bookmarked = request.user in movie_pk.is_bookmarked.all()
         all_comments = Comment.objects.filter(movie=movie_pk)
         is_owner = request.user.username == movie_pk.user.username
-        movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
-        movie_pk = movie_instance.pk
-        movie_data = Movie.objects.get(pk=movie_pk)
-        # print("PK - movie_instance.pk: ", movie_instance.pk)
-        current_user = request.user
-        movie_data.my_list.add(current_user)
+   
 
-        print("2) - movie_instance: ", movie_instance.imdb_id)
+        # print("2) - movie_instance: ", movie_instance.imdb_id)
         return render(
             request,
             "movies/details.html",
@@ -217,13 +212,15 @@ def my_list(request, id):
     return HttpResponseRedirect(reverse("_details", args=(movie_instance.id,)))
 
 
-# TODO
+# TODO add to my list
 def add_mylist(request):
+    imdb_id = request.POST["imdb_id"] # tt0077889
+    current_user = User.objects.get(pk=request.user.id) # george
+    # movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
+    movie_instance = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
 
-    imdb_id = request.POST["imdb_id"]
-    print("add_mylist-imdb_id: ", imdb_id)
-    movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
-    print("HELLO WORLD: ", movie_instance)
+    movie_instance.my_list.add(current_user)
+    print("MOVIE ADDED: ")
 
     if request.method == "GET":
         return render(request, "movies/index.html", {})
@@ -269,6 +266,14 @@ def add_mylist(request):
         )
         user.save()
 
+        # movie_id.my_list.remove(current_user)
+
+        # movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
+        # movie_pk = movie_instance.pk
+        # movie_data = Movie.objects.get(pk=movie_pk)
+        # current_user = request.user
+        # movie_data.my_list.add(current_user)
+
         print("Debug - user: ", user.id)
 
     current_user = request.user
@@ -277,22 +282,16 @@ def add_mylist(request):
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
 # TODO fix this logic
-def remove_mylist(request, id):
-    # user_follow = request.POST['user_follow']
-    current_user = User.objects.get(pk=request.user.id)
-    # print("Debug - current_user: ", current_user)
-    # user_follow_data = User.objects.get(username=user_follow)
-    # f = Movie.objects.get(user=current_user, my_list=current_user)
-    # f.delete()
-    movie_instance = Movie.objects.filter(my_list=id).first()
-    movie_pk = movie_instance.pk
-    movie_data = Movie.objects.get(pk=movie_pk)
-    # print("PK - movie_instance.pk: ", movie_instance.pk)
-    # current_user = request.user
-    print("Debug - current_user: ", current_user)
-    movie_data.my_list.remove(current_user)
+def remove_mylist(request):
+    print("HELLOOOOOOOOO")
+    imdb_id = request.POST["imdb_id"] # tt0077889
+    current_user = User.objects.get(pk=request.user.id) # george
+    movie_id = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
 
-    return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id})) 
+    movie_id.my_list.remove(current_user)
+
+    # return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id}))
+    return HttpResponseRedirect(reverse("_details", args=(imdb_id,))) 
 
 
 
