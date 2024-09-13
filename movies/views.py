@@ -160,9 +160,6 @@ def details(request, imdb_id):
 
 
 def like(request, movie_id):
-
-    # Debug: print("Debug | Like function")
-
     # Get user and relevant movie
     user = User.objects.get(id=request.user.id)
     # movie = Movie.objects.get(id=movie_id)
@@ -174,16 +171,6 @@ def like(request, movie_id):
     add_movie = Movie(imdb_id=imdb_id, like_by=user)
 
     add_movie.save()
-    # print("Debug | movie: ", movie)
-
-    # # If user likes movie unlike (and vice versa)
-    # if user in movie.like.all():
-    #     # print("Debug | User already likes this movie - unliking now")
-    #     movie.like.remove(user)
-
-    # else:
-    #     # print("Debug: user does not yet like this movie - liking now")
-    #     movie.like.add(user)
 
     return JsonResponse({"message": "Post liked / disliked"})
 
@@ -217,9 +204,7 @@ def add_mylist(request):
     imdb_id = request.POST["imdb_id"] # tt0077889
     print("MR IMDB-imdb_id: ", imdb_id)
     current_user = User.objects.get(pk=request.user.id) # george
-    # movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
-    movie_instance = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
-    movie_instance.my_list.add(current_user)
+    print("CURRENT USER: ", current_user) # alma george
 
     if request.method == "GET":
         return render(request, "movies/index.html", {})
@@ -227,8 +212,9 @@ def add_mylist(request):
     elif Movie.objects.filter(imdb_id=imdb_id).exists():
         movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
         print("add_mylist-movie_instance: ", movie_instance) # id 1 george
-        movie_id = movie_instance.id
-        print("add_mylist-movie_id: ", movie_id)
+        current_user = User.objects.get(pk=request.user.id) # george
+        movie_instance.my_list.add(current_user) 
+     
 
     elif request.method == "POST":
         user = request.user
@@ -246,6 +232,8 @@ def add_mylist(request):
         awards = request.POST["awards"]
         metascore = request.POST["metascore"]
         imdb_rating = request.POST["imdb_rating"]
+        my_list = request.POST["my_list"]
+        
         user = Movie(
             user=user,
             imdb_id=imdb_id,
@@ -265,19 +253,10 @@ def add_mylist(request):
         )
         user.save()
 
-        # movie_id.my_list.remove(current_user)
+        current_user = User.objects.get(pk=request.user.id) # george
+        movie_instance = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
+        movie_instance.my_list.add(current_user)
 
-        # movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
-        # movie_pk = movie_instance.pk
-        # movie_data = Movie.objects.get(pk=movie_pk)
-        # current_user = request.user
-        # movie_data.my_list.add(current_user)
-
-        print("Debug - user: ", user.id)
-
-    current_user = request.user
-    print("DEBUG current_user: ", current_user)
-    # movie_data.mylist.add(current_user)
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
 # TODO fix this logic

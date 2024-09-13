@@ -73,6 +73,7 @@
       <input type="hidden" name="awards" class="form-control" id="awards" value="{{movie.awards}}">
       <input type="hidden" name="metascore" class="form-control" id="metascore" value="{{movie.metascore}}">
       <input type="hidden" name="imdb_rating" class="form-control" id="imdb_rating" value="{{movie.imdb_rating}}">
+      <input type="hidden" name="my_list" class="form-control" id="my_list" value="{{user}}">
       {% if user.is_authenticated %}
       <button type="submit" class="btn btn-success">Add To My List</button>
       {% endif %}
