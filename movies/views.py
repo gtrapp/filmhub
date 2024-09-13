@@ -212,15 +212,14 @@ def my_list(request, id):
     return HttpResponseRedirect(reverse("_details", args=(movie_instance.id,)))
 
 
-# TODO add to my list
+# TODO FIX THIS TO ACCEPT NEW MOVIES to my_list
 def add_mylist(request):
     imdb_id = request.POST["imdb_id"] # tt0077889
+    print("MR IMDB-imdb_id: ", imdb_id)
     current_user = User.objects.get(pk=request.user.id) # george
     # movie_instance = Movie.objects.filter(imdb_id=imdb_id).first()
     movie_instance = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
-
     movie_instance.my_list.add(current_user)
-    print("MOVIE ADDED: ")
 
     if request.method == "GET":
         return render(request, "movies/index.html", {})
