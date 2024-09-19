@@ -13,7 +13,7 @@
       <div class="ms-2 card" style="width: 35rem" data-id="{{movie.id}}";>
          <div class="card-body rounded">
             <p>{{movie.user.id}}</p>
-            <h5 class="card-title"><a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{ movie.user}}</b></h5></a>
+            <h5 class="card-title"><a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{movie.user}}</b></h5></a>
             {{movie.id}}
             <!-- <h6 class="card-subtitle mb-2 text-muted">{{movie.timestamp}}</h6> -->
             <img class="align-self-start mr-3" src="{{movie.poster}}" alt="{{item.title}}" style="width: 12rem">

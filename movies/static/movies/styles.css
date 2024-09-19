@@ -1,5 +1,6 @@
 body {
     background-color: #212529 !important;
+    line-height: 1.25rem !important;
 }
 
 body.homepage {
@@ -8,7 +9,7 @@ body.homepage {
     background-color: #212529;
     background-image: url("../movies/media/bg.png");
     background-repeat: no-repeat;
-    background-size: auto 100% ;
+    background-size: auto 100%;
     background-attachment: fixed;
     background-position: center;
 }
@@ -19,6 +20,7 @@ body.homepage {
     text-align: center;
     padding-right: 5%
 }
+
 .card-title {
     font-size: .75rem;
 }
@@ -52,12 +54,23 @@ a.btn {
 .container.details {
     color: white
 }
+
+.btn.back-button {
+    font-size: .70rem;
+    line-height: .5rem;
+    margin-left: 28px;
+    margin-bottom: 8px
+}
+
+
 p.text-muted {
     color: #bebebe !important;
 }
+
 a.text-muted {
     color: #bebebe !important;
 }
+
 .clear {
     margin-top: 2rem;
 }
@@ -77,7 +90,7 @@ body {
 } */
 
 .my-list {
-    color: white; 
+    color: white;
     text-transform: capitalize;
 }
 
@@ -94,25 +107,28 @@ body {
     left: 0px;
     position: absolute;
     width: 40px;
-    cursor: pointer; 
-   
-    
+    cursor: pointer;
+
+
 }
 
 
 .un-bookmarked {
     display: block;
-    cursor: pointer; 
-    filter: drop-shadow(2px 5px 4px #000);
-   
+    cursor: pointer;
+    filter: drop-shadow(2px 5px 2px #000);
+
 }
-.ribbon-off{
-   fill: rgb(52, 52, 207);  
+
+.ribbon-off {
+    fill: rgb(52, 52, 207);
 }
+
 .un-bookmarked:hover {
     /* opacity: .9; */
     filter: drop-shadow(0 0 0.75rem crimson);
 }
+
 .plus {
     display: block;
     width: 24px;
@@ -126,17 +142,20 @@ body {
 
 .bookmarked {
     display: block;
-    cursor: pointer; 
-    filter: drop-shadow(2px 5px 4px #000);
+    cursor: pointer;
+    filter: drop-shadow(2px 5px 2px #000);
 }
+
 .ribbon-on {
     fill: rgb(112, 196, 28)
 }
+
 .bookmarked:hover {
     /* opacity: .9; */
-    cursor: pointer; 
+    cursor: pointer;
     filter: drop-shadow(0 0 0.75rem crimson);
 }
+
 .check {
     display: block;
     width: 26px;
@@ -150,21 +169,50 @@ body {
 h1 {
     color: white;
 }
+
 h6 {
     color: white;
 }
 
 
+/* COMMENTS */
 
+.comments {
+    margin-top: 2rem;
+    margin-bottom: 10rem;
+    color: black;
+}
+.comments .ms-2.card {
+    padding-bottom: 5rem;
+}
+.comments .form-group {
+    margin-bottom: .50rem !important;
+}
+.comments .btn.btn-success{
+    margin-top: 0 !important;
+    margin-right: .5rem;
+    line-height: 1rem;
+    
+}
 
+.comments .card-body.comment {
+    border-radius: 15px;
+    background: #c6cbcf;
+    padding: 5px 10px 20px 20px;
+    width: 90%;
+    margin: 5px 0 20px 16px;
+    position: relative;
+}
 
+.comments .card-body.comment .message {
+    font-size: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1.25rem;
+}
 
-
-
-
-
-
-
-
-
-
+.comment .timestamp {
+    position: absolute;
+    bottom: .5rem;
+    left: 1rem;
+    font-size: .7rem;
+}
