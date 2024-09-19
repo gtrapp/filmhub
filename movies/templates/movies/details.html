@@ -2,10 +2,7 @@
 {% block body %}
 {% load static %}
 
-
 <a href="javascript:history.back()"><button type="button" class="btn btn-light back-button">&#x2190; back</button></a>
-
-<!-- <a href="{% url 'search' %}">Back</a> -->
 
 <div class="container details">
    <h1>{{movie.title}}</h1>
@@ -44,7 +41,7 @@
             class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdb_id}}</a>
       </div>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="top" title="Watch Trailer">
+      <button type="button" id="trailer" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="top" title="Watch Trailer">
          Trailer
       </button>
       
@@ -104,7 +101,6 @@
       {% endif %}
    </form>
    {% endif %}
-
 
    <div class="container comments">
       <div class="row justify-content-center">
@@ -175,6 +171,10 @@
             event.preventDefault();  // Prevent the default form submission if needed
             commentForm.submit();  // Submit the form
          }
+         window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth' // Smooth scrolling
+         });
       });
 
 

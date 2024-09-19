@@ -14,6 +14,10 @@ body.homepage {
     background-position: center;
 }
 
+.search-form {
+    margin-right: 2rem;
+}
+
 .site-title {
     font-size: 3rem;
     color: red;

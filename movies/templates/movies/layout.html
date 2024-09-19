@@ -52,7 +52,7 @@
 
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"></li>
-              <form action="{% url 'search' %}" method="post">
+              <form class="search-form" action="{% url 'search' %}" method="post">
                 {% csrf_token %}
                 <div class="input-group mb-2">
                   <input type="text" name="keyword" class="form-control" placeholder="enter keyword" aria-label="enter keyword"
