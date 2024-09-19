@@ -1,5 +1,24 @@
+body {
+    background-color: #212529 !important;
+}
 
+body.homepage {
+    display: block;
+    height: 100%;
+    background-color: #212529;
+    background-image: url("../movies/media/bg.png");
+    background-repeat: no-repeat;
+    background-size: auto 100% ;
+    background-attachment: fixed;
+    background-position: center;
+}
 
+.site-title {
+    font-size: 3rem;
+    color: red;
+    text-align: center;
+    padding-right: 5%
+}
 .card-title {
     font-size: .75rem;
 }
@@ -14,17 +33,31 @@ a.btn {
 
 }
 
-.container.searchpage {
-    margin-bottom: 1rem;
+
+.text-muted {
+    color: #104f86 !important;
 }
 
-.searchresults {
-    margin-bottom: 7rem;
+
+.container.searchpage {
+    margin-bottom: 1rem;
+
 }
+
+
 .searchresults {
     margin-bottom: 20%;
 }
 
+.container.details {
+    color: white
+}
+p.text-muted {
+    color: #bebebe !important;
+}
+a.text-muted {
+    color: #bebebe !important;
+}
 .clear {
     margin-top: 2rem;
 }
@@ -36,3 +69,93 @@ body {
 .media {
     width: 80%;
 }
+
+/* .btn.add-remove {
+    position: fixed;
+    margin-top: -849px;
+    z-index: 1;
+} */
+
+.my-list {
+    color: white; 
+    text-transform: capitalize;
+}
+
+.poster {
+    position: relative;
+}
+
+
+
+/* Bookmarks */
+
+.bookmark {
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    width: 40px;
+    
+}
+
+
+.un-bookmarked {
+    display: block;
+    cursor: pointer; 
+}
+.ribbon-off{
+   fill: rgb(52, 52, 207);  
+}
+.un-bookmarked:hover {
+    opacity: .9;
+}
+.plus {
+    display: block;
+    width: 24px;
+    fill: yellow;
+    top: 7px;
+    left: 8px;
+    position: absolute;
+}
+
+
+
+.bookmarked {
+    display: block;
+}
+.ribbon-on {
+    fill: rgb(112, 196, 28)
+}
+.bookmarked:hover {
+    opacity: .9;
+}
+.check {
+    display: block;
+    width: 26px;
+    fill: rgb(108, 32, 66);
+    top: 7px;
+    left: 7px;
+    position: absolute;
+}
+
+
+h1 {
+    color: white;
+}
+h6 {
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

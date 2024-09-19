@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-  <title>Title Vital</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Title Vital Hub</title>
   <link rel="stylesheet" href="{% static 'movies/styles.css' %}" />
   <link rel="icon" href="{% static 'movies/media/favicon.png' %}" />
 </head>
@@ -36,8 +38,18 @@
         </button>
 
         <div class="navbar-collapse collapse" id="collapseNavbar">
+           <h1 class="site-title">Title Vital Hub</h1>
           <ul class="navbar-nav">
-            <li class="nav-item">
+         
+            <li class="nav-item top-rated">
+              <b><a class="nav-link" href="{% url '_top_rated' %}">Top Rated</a></b>
+            </li>
+          </ul>
+
+         
+
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"></li>
               <form action="{% url 'search' %}" method="post">
                 {% csrf_token %}
                 <div class="input-group mb-2">
@@ -47,17 +59,9 @@
                 </div>
               </form>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url '_top_rated' %}">Top Rated</a>
-
-            </li>
-          </ul>
-
-          <ul class="navbar-nav ms-auto">
-            
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <h1 style="color: white">{{ user.id }}</h1>
+              <!-- <h1 style="color: white">{{ user.id }}</h1> -->
               <a class="nav-link" href="{% url '_profile' user_id=user.id %}"><strong>{{ user.username }}</strong>
                 <sup><span class="badge badge-pill badge-danger" id="notifications"></span></sup></a>
             </li>

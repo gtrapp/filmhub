@@ -265,8 +265,9 @@ def remove_mylist(request):
     imdb_id = request.POST["imdb_id"] # tt0077889
     current_user = User.objects.get(pk=request.user.id) # george
     movie_id = Movie.objects.get(imdb_id=imdb_id) # whole movie attribute values
-
     movie_id.my_list.remove(current_user)
+    movie_id.is_bookmarked = False
+    print("movie_id.is_bookmarked: ", movie_id.is_bookmarked)
 
     # return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id}))
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,))) 
