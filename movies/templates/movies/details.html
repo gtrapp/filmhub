@@ -21,7 +21,7 @@
          <div class="bookmark">
 
             {% if user in movie.my_list.all %}
-            <div class="bookmarked">
+            <div class="bookmarked" data-toggle="tooltip" data-placement="top" title="Remove from My List">
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path class="ribbon-on" d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg>
                <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
             </div>
@@ -29,7 +29,7 @@
             {% else %}
             
             {% if user.is_authenticated %}
-            <div class="un-bookmarked">
+            <div class="un-bookmarked" data-toggle="tooltip" data-placement="top" title="Add to My List">
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path class="ribbon-off" d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg>
                <svg class="plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
             </div>
@@ -56,8 +56,8 @@
             class="card-subtitle mb-2 text-muted">IMDB: {{movie.imdb_id}}</a>
       </div>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-         Watch Trailer
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="top" title="Watch Trailer">
+         Trailer
       </button>
       
       <!-- Modal -->
@@ -87,7 +87,7 @@
       {% csrf_token %}
       <!-- <input type="hidden" name="in" -->
       <input type="hidden" name="imdb_id" class="form-control" id="imdb_id" value="{{movie.imdb_id}}"> 
-      <button type="submit" class="btn btn-danger add-remove">Remove From My List</button>
+      <!-- <button type="submit" class="btn btn-danger add-remove">Remove From My List</button> -->
    </form>
 
    {% else %}
@@ -112,16 +112,16 @@
       <input type="hidden" name="my_list" class="form-control" id="my_list" value="{{user}}">
 
       {% if user.is_authenticated %}
-         <button type="submit" class="btn btn-success add-remove">Add To My List</button>
+         <!-- <button type="submit" class="btn btn-success add-remove">Add To My List</button> -->
       {% endif %}
    </form>
    {% endif %}
 
 </div>
-
+<!-- 
 <h6>{{movie.title}}</h6>
 <h6>Bookmarked?: {{movie.is_bookmarked}}</h6>
-<h6> movie.my_list.all: {{movie.my_list.all}}</h6>
+<h6> movie.my_list.all: {{movie.my_list.all}}</h6> -->
 <div class="row row-cols-1 row-cols-md-3 g-4">
    <div class="container">
       <div class="row justify-content-center">
@@ -184,24 +184,40 @@
             //       })
             //       .catch(error => console.error('Error:', error));
             // }
-            
-         if (un_bookmarked.style.display = "block") {
-            console.log("good");
-            un_bookmarked.addEventListener("click", () => {
-               console.log("un_bookmarked clicked");
-               add_form.submit();
-            })
-         } else if (bookmarked.style.display = "block") {
-            bookmarked.addEventListener("click", () => {
-               console.log("un_bookmarked clicked");
-               remove_form.submit();
-            })
-         }  else {
-            bookmark.addEventListener("click", () => {
-               console.log("bookmark clicked");    
-         })
 
-         }
+   
+         if(un_bookmarked != null) {
+           console.log("un_bookmarked exists");
+           un_bookmarked.addEventListener("click", () => {
+              console.log("un_bookmarked clicked");
+              add_form.submit();
+           })
+         }  else if (bookmarked != null) {
+           console.log("bookmarked exists");
+           bookmarked.addEventListener("click", () => {
+              console.log("un_bookmarked clicked");
+              remove_form.submit();
+           })
+         }  else { 
+               console.log("bookmark exists");
+         }  
+               
+         // if (un_bookmarked.style.display = "block") {
+         //    console.log("good");
+         //    un_bookmarked.addEventListener("click", () => {
+         //       console.log("un_bookmarked clicked");
+         //       add_form.submit();
+         //    })
+         // } else if (bookmarked.style.display = "block") {
+         //    bookmarked.addEventListener("click", () => {
+         //       console.log("un_bookmarked clicked");
+         //       remove_form.submit();
+         //    })
+         // }  else {
+         //    bookmark.addEventListener("click", () => {
+         //       console.log("bookmark clicked");    
+         // })
+         // }
    
 
       });

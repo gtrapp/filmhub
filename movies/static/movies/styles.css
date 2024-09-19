@@ -94,6 +94,8 @@ body {
     left: 0px;
     position: absolute;
     width: 40px;
+    cursor: pointer; 
+   
     
 }
 
@@ -101,12 +103,15 @@ body {
 .un-bookmarked {
     display: block;
     cursor: pointer; 
+    filter: drop-shadow(2px 5px 4px #000);
+   
 }
 .ribbon-off{
    fill: rgb(52, 52, 207);  
 }
 .un-bookmarked:hover {
-    opacity: .9;
+    /* opacity: .9; */
+    filter: drop-shadow(0 0 0.75rem crimson);
 }
 .plus {
     display: block;
@@ -121,12 +126,16 @@ body {
 
 .bookmarked {
     display: block;
+    cursor: pointer; 
+    filter: drop-shadow(2px 5px 4px #000);
 }
 .ribbon-on {
     fill: rgb(112, 196, 28)
 }
 .bookmarked:hover {
-    opacity: .9;
+    /* opacity: .9; */
+    cursor: pointer; 
+    filter: drop-shadow(0 0 0.75rem crimson);
 }
 .check {
     display: block;
