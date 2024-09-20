@@ -1,17 +1,26 @@
+* {
+    color: white;
+}
 body {
     background-color: #212529 !important;
     line-height: 1.25rem !important;
+    color: white;
+}
+
+.bgColor {
+    background-color: #212529 !important;
 }
 
 body.homepage {
     display: block;
     height: 100%;
-    background-color: #212529;
+    /* background-color: #212529; */
     background-image: url("../movies/media/bg.png");
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-attachment: fixed;
     background-position: center;
+    
 }
 
 .search-form {
@@ -56,7 +65,10 @@ a.btn {
 }
 
 .container.details {
-    color: white
+    /* color: white */
+}
+.container.top-rated .ms-2.card{
+    color: black !important;
 }
 
 .btn.back-button {
@@ -93,15 +105,45 @@ body {
     z-index: 1;
 } */
 
+.container.header {
+   text-align: center;
+}
+
 .my-list {
-    color: white;
+    /* color: white; */
+    line-height: .5rem;;
     text-transform: capitalize;
 }
 
-.poster {
-    position: relative;
+.container.follow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container.follow div {
+    padding: 10px
 }
 
+
+
+.poster {
+    position: relative;
+    margin-bottom: .75rem;
+}
+
+/* .container.user-button {
+    position: relative;
+} */
+
+.top-user {
+    position: absolute;
+    left: 12px;
+    top: 0px;
+    font-size: .75rem !important;
+    line-height:  .5 !important;
+    z-index: 1;
+    
+}
 
 
 /* Bookmarks */
@@ -170,13 +212,13 @@ body {
 }
 
 
-h1 {
+/* h1 {
     color: white;
 }
 
 h6 {
     color: white;
-}
+} */
 
 
 /* COMMENTS */
@@ -206,12 +248,14 @@ h6 {
     width: 90%;
     margin: 5px 0 20px 16px;
     position: relative;
+    color: black;
 }
 
 .comments .card-body.comment .message {
     font-size: 1rem;
     margin-left: 1rem;
     margin-bottom: 1.25rem;
+    color: black;
 }
 
 .comment .timestamp {

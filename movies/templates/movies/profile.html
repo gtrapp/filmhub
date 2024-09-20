@@ -2,13 +2,15 @@
 {% block body %}
 {% load static %}
 
-<br>
-<div class="container">
+<div class="container header">
 
    <h1 class="my-list">{{ user_profile }}'s List</h1>
-   <div class="row d-flex justify-content-center">
-       <h3 class="col-4">Followers: {{ followers.count }}</h3>
-       <h3 class="col-4">Following: {{ following.count }}</h3>
+   <div>
+      <div class="container follow">
+       <div>{{ followers.count }} followers </div>
+       <div>{{ following.count }} following</div>
+      </div>
+
        {% if user.is_authenticated %}
            {% if user != user_profile %}
                {% if is_following %}
@@ -28,19 +30,21 @@
        {% endif %}
    </div>
 </div>
-<hr>
-<br>
+<hr style="color: white">
 <!-- Movie.objects.filter(my_list=user) -->
    <!-- Show paginated movies -->
    <div class="profile row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-
       <!-- TODO: Get a title that is already in George's list also showing in Alma's list -->
       {% for movie in my_list %} 
       <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}" ;>
          <!-- <div class="card-body rounded"> -->
          <h4 class="card-title"><a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{ movie.user}}</b></h4></a>
        
+         <a href="{% url '_details' imdb_id=movie.imdb_id %}" data-id="{{movie.imdb_id}}">
             <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
+         </a>
+         
+         
             <div class="card-body">
                <h5 class="card-title">{{movie.title}}</h5>
                <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
