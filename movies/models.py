@@ -44,6 +44,9 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     like = models.ManyToManyField(User, blank=True, related_name='likes')
 
+    def total_likes(self):
+        return self.like.count()
+
     def __str__(self):
         return f"{self.author} comment on {self.movie}: {self.message}"
-    
+

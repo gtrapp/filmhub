@@ -16,15 +16,17 @@
 
   {% for movie in movies %}
 
-  <div class="card m-3" style="width: 14rem">
-    <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
-    <div class="card-body">
-      <h5 class="card-title">{{movie.title}}</h5>
-      <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
-      <p class="card-subtitle mb-2 text-muted">{{movie.type}}</p>
-      <a href="{% url '_details' imdb_id=movie.imdb_id %}" class="btn btn-primary"
-        data-id="{{movie.imdb_id}}">details</a>
+  <div class="card ms-3" style="width: 14rem">
+    <a href="{% url '_details' imdb_id=movie.imdb_id %}" data-id="{{movie.imdb_id}}">
+      <div>
+      <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
+      <div class="card-body">
+        <div class="card-title">{{movie.title}}</div>
+        <div class="card-year">{{movie.year}}</div>
+        <div class="card-type">{{movie.type}}</div>
+      </div>
     </div>
+    </a>
   </div>
 
   {% endfor %}

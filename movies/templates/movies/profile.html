@@ -30,28 +30,30 @@
        {% endif %}
    </div>
 </div>
+
 <hr style="color: white">
 <!-- Movie.objects.filter(my_list=user) -->
-   <!-- Show paginated movies -->
-   <div class="profile row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-      <!-- TODO: Get a title that is already in George's list also showing in Alma's list -->
+   
+
+<!-- Show paginated movies -->
+   <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+      <!-- Get a title that is already in George's list also showing in Alma's list -->
       {% for movie in my_list %} 
-      <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}" ;>
-         <!-- <div class="card-body rounded"> -->
-         <h4 class="card-title"><a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{ movie.user}}</b></h4></a>
-       
+      <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}";>
+         
          <a href="{% url '_details' imdb_id=movie.imdb_id %}" data-id="{{movie.imdb_id}}">
             <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
          </a>
          
-         
             <div class="card-body">
-               <h5 class="card-title">{{movie.title}}</h5>
-               <p class="card-subtitle mb-2 text-muted">{{movie.year}}</p>
-               <p class="card-subtitle mb-2 text-muted">{{movie.type}}</p>
-               <a href="{% url '_details' imdb_id=movie.imdb_id %}" class="btn btn-primary" data-id="{{movie.imdb_id}}">details</a>
-            
+               <a href="{% url '_details' imdb_id=movie.imdb_id %}" data-id="{{movie.imdb_id}}">
+                  <div class="card-title">{{movie.title}}</div>
+               </a>
+               <div class="card-year">{{movie.year}}</div>
+               <div class="card-type">{{movie.type}}</div>
+               <!-- <a href="{% url '_details' imdb_id=movie.imdb_id %}" class="btn btn-primary" data-id="{{movie.imdb_id}}">details</a> -->
             </div>
+            <!-- <a href="{% url '_profile' user_id=movie.user.id%}"><b>@{{ movie.user}}</b></a> -->
       </div>
       {% endfor %}
    </div>
@@ -94,7 +96,7 @@
       </ul>
    </nav>
 
-
+{% endblock %}
 
 
    <script>
@@ -211,4 +213,3 @@
 
    </script>
 
-{% endblock %}

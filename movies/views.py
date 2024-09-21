@@ -11,6 +11,7 @@ import requests
 import json  # JSON functionality
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.shortcuts import get_object_or_404, redirect
 
 # Create your views here.
 def index(request):    
@@ -23,7 +24,7 @@ def top_rated(request):
     # print("Debug - top_rated: ", Movie.objects.all())
     print("Debug - top_rated: Movie  <QuerySet")
     # movies = Movie.objects.all().order_by("imdbRating").reverse()
-    paginator = Paginator(movies, 5)
+    paginator = Paginator(movies, 10)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -189,6 +190,21 @@ def add_comment(request, id):
     imdb_id = movie_data.imdb_id
 
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
+
+
+
+# TODO: LIKES
+@login_required
+def like_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    
+    if request.user in comment.like.all():
+        comment.like.remove(request.user)  # Unlike
+    else:
+        comment.like.add(request.user)  # Like
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 
 
 def my_list(request, id):

@@ -1,11 +1,15 @@
 * {
     color: white;
 }
+
+/* layout.html */
 body {
     background-color: #212529 !important;
     line-height: 1.25rem !important;
     color: white;
+    padding-bottom: 15%;
 }
+    
 
 .bgColor {
     background-color: #212529 !important;
@@ -20,27 +24,89 @@ body.homepage {
     background-size: auto 100%;
     background-attachment: fixed;
     background-position: center;
-    
 }
 
+.user-name {
+    text-transform: capitalize;
+}
+
+
+/* Layout.html */
+/* Search field */
 .search-form {
     margin-right: 2rem;
 }
 
 .site-title {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
     font-size: 3rem;
     color: red;
     text-align: center;
-    padding-right: 5%
+    padding: 1% 5% 0 0;
+}
+
+
+
+
+
+
+/* Cards */
+ .card.ms-3 {
+    position: relative;
+    padding: 0 0 0 0;
+    background-color: #ffffff;
+    border: 0;
+ }
+ .card.ms-3 a {
+    text-decoration: none;
+ }
+
+.card-body {
+    color: black !important;
+    /* padding-bottom: 0 !important; */
 }
 
 .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: black;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    /* font-weight: <wei; */
+    font-style: normal;
+}
+.card-year {
+    font-size: .80rem;
+    color: black;
+}
+.card-type {
+    position: absolute;
+    bottom: 0;
+    right: 0.5rem;
     font-size: .75rem;
+    color: black;
+}
+.card-type.top-rated {
+    bottom: 1.6rem;
+}
+.user-list-btn:hover {
+    color: red;
+    opacity: 0.9;
+    filter: drop-shadow(2px 5px 2px #0f0f0f);
 }
 
-.card-subtitle {
-    font-size: .70rem;
+
+
+.card-user {
+    color: grey
 }
+
+.card-user a, b {
+    color: black
+}
+
+
 
 a.btn {
     line-height: 1;
@@ -64,13 +130,6 @@ a.btn {
     margin-bottom: 20%;
 }
 
-.container.details {
-    /* color: white */
-}
-.container.top-rated .ms-2.card{
-    color: black !important;
-}
-
 .btn.back-button {
     font-size: .70rem;
     line-height: .5rem;
@@ -91,9 +150,6 @@ a.text-muted {
     margin-top: 2rem;
 }
 
-body {
-    padding-bottom: 15%;
-}
 
 .media {
     width: 80%;
@@ -126,65 +182,72 @@ body {
 
 
 
+
+
+
+/* details.html */
+.container.details > * {
+    color: white 
+}
+
+.container.details h1 {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+
+.media-body.details > * {
+    color: white !important;
+}
+
 .poster {
     position: relative;
     margin-bottom: .75rem;
 }
+.plot {
+    font-size: .80rem;
+    margin-bottom: .75rem;
+}
 
-/* .container.user-button {
-    position: relative;
-} */
-
-.top-user {
-    position: absolute;
-    left: 12px;
-    top: 0px;
-    font-size: .75rem !important;
-    line-height:  .5 !important;
-    z-index: 1;
-    
+.card-subtitle {
+    font-size: .70rem;
 }
 
 
 /* Bookmarks */
-
 .bookmark {
     top: 0px;
     left: 0px;
     position: absolute;
     width: 40px;
     cursor: pointer;
-
-
 }
-
 
 .un-bookmarked {
     display: block;
     cursor: pointer;
-    filter: drop-shadow(2px 5px 2px #000);
-
-}
-
-.ribbon-off {
-    fill: rgb(52, 52, 207);
+    filter: drop-shadow(2px 5px 2px #343434);
 }
 
 .un-bookmarked:hover {
     /* opacity: .9; */
-    filter: drop-shadow(0 0 0.75rem crimson);
+    filter: drop-shadow(0 0 0.75rem rgb(240, 205, 5));
+}
+
+.ribbon-off {
+    fill: rgb(0, 0, 0);
+    opacity: .6;
 }
 
 .plus {
     display: block;
     width: 24px;
-    fill: yellow;
+    fill: rgb(255, 255, 255);
     top: 7px;
     left: 8px;
     position: absolute;
 }
-
-
 
 .bookmarked {
     display: block;
@@ -192,45 +255,40 @@ body {
     filter: drop-shadow(2px 5px 2px #000);
 }
 
-.ribbon-on {
-    fill: rgb(112, 196, 28)
-}
-
 .bookmarked:hover {
     /* opacity: .9; */
     cursor: pointer;
-    filter: drop-shadow(0 0 0.75rem crimson);
+    filter: drop-shadow(0 0 0.75rem rgb(240, 205, 5));
 }
+
+.ribbon-on {
+    fill: #f5c518
+}
+
 
 .check {
     display: block;
     width: 26px;
-    fill: rgb(108, 32, 66);
+    fill: rgb(0, 0, 0);
     top: 7px;
     left: 7px;
     position: absolute;
 }
 
 
-/* h1 {
-    color: white;
-}
-
-h6 {
-    color: white;
-} */
-
 
 /* COMMENTS */
-
 .comments {
     margin-top: 2rem;
     margin-bottom: 10rem;
     color: black;
 }
+
 .comments .ms-2.card {
     padding-bottom: 5rem;
+    
 }
+
 .comments .form-group {
     margin-bottom: .50rem !important;
 }
@@ -243,10 +301,10 @@ h6 {
 
 .comments .card-body.comment {
     border-radius: 15px;
-    background: #c6cbcf;
+    background: #c6cbcf; 
     padding: 5px 10px 20px 20px;
     width: 90%;
-    margin: 5px 0 20px 16px;
+    margin: 5px 0 50px 16px;
     position: relative;
     color: black;
 }
@@ -264,3 +322,29 @@ h6 {
     left: 1rem;
     font-size: .7rem;
 }
+
+.btn-plain-heart {
+    background-color: #8b0000;
+    color: #fff;
+    fill: redd
+}
+.btn-red-heart {
+    background-color: #dc0000;
+    color: #c20000;
+}
+
+.like-heart {
+    position: absolute;
+    bottom: -31px;
+    left: 10px;
+    cursor: pointer;
+}
+.likes-number {
+    width: 50px;
+    font-size: .8rem;
+    color: #000000;
+    position: absolute;
+    bottom: 8px;
+    left: 43px;
+/* LIKES heart icon */
+

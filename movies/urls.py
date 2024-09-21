@@ -32,6 +32,7 @@ urlpatterns = [
 
     path("mylist", views.mylist, name="_mylist"),
     path("add_comment/<int:id>", views.add_comment, name="add-comment"),
-    path("watchlist", views.watchlist, name="watchlist")
+    path("watchlist", views.watchlist, name="watchlist"),
+    path('comment/<int:comment_id>/like/', views.like_comment, name='like-comment'),
 ]
 

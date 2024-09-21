@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <title>Vital Title Hub</title>
@@ -48,8 +53,6 @@
             </li>
           </ul>
 
-         
-
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"></li>
               <form class="search-form" action="{% url 'search' %}" method="post">
@@ -64,7 +67,7 @@
             {% if user.is_authenticated %}
             <li class="nav-item">
               <!-- <h1 style="color: white">{{ user.id }}</h1> -->
-              <a class="nav-link" href="{% url '_profile' user_id=user.id %}"><strong>{{ user.username }}</strong>
+              <a class="nav-link user-name" href="{% url '_profile' user_id=user.id %}"><strong>Hi, {{ user.username }}</strong>
                 <sup><span class="badge badge-pill badge-danger" id="notifications"></span></sup></a>
             </li>
 

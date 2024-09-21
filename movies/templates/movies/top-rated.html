@@ -3,38 +3,37 @@
 {% load static %}
 
 <div class="container header">
-   <h2>Top Rated</h2>
-   <hr>
+<h2>Top Rated from User Lists</h2>
 </div>
 
-   <!-- Show paginated movies -->
-<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-      {% for movie in page_obj %}
-      <!-- <div class="row justify-content-center mb-4"> -->
-      <div class="card m-3 bgColor" style="width: 14rem" data-id="{{movie.id}}">
-         <!-- <div class="ms-2 card" style="width: 35rem" data-id="{{movie.id}}";> -->
-         
-         <!-- <div class="container user-button"> -->
-            <!-- <p>{{movie.user.id}}</p> -->
-            <a href="{% url '_profile' user_id=movie.user.id%}">
-               <button type="button" class="btn btn-info top-user">@{{movie.user}}</button>
-            </a>
-            <a href="{% url '_details' imdb_id=movie.imdb_id %}" data-id="{{movie.imdb_id}}">
-               <img class="align-self-start mr-3 poster" src="{{movie.poster}}" alt="{{item.title}}" style="width: 12rem">
-            </a>
-         <!-- </div> -->
-         
-         <div id="post_content">{{movie.title}}</div>
-         <div class="text-muted" id="post_content">{{movie.year}}</div>
-         <div class="text-muted" id="post_content">{{movie.imdb_rating}}</div>
-         <!-- <a href="{% url '_details' imdb_id=movie.imdb_id %}" class="btn btn-primary" data-id="{{movie.imdb_id}}">details</a> -->
-      
-      </div>
 
+<hr style="color: white">
+
+
+<div class="profile row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+   <!-- Show paginated posts -->
+   {% for movie in page_obj %}
+   <div class="card ms-3" style="width: 14rem" data-id="{{movie.id}}" ;>
+     
+      <img class="card-img-top" src="{{movie.poster}}" alt="{{movie.title}}" />
+      <!-- <img class="align-self-start mr-3" src="{{movie.poster}}" alt="{{item.title}}" style="width: 12rem"> -->
+
+      <div class="card-body">
+         <div class="card-title">{{movie.title}}</div>
+         <div class="card-year">{{movie.year}}</div>
+         <div class="card-type top-rated">{{movie.type}}</div>
+
+      </div>
+      
+      <!-- <div class="card-user"><a href="{% url '_profile' user_id=movie.user.id%}"><b class="my-list"> {{ movie.user }}'s List</b></div></a> -->
+      <a class ="btn btn-warning user-list-btn" href="{% url '_profile' user_id=movie.user.id%}"><b class="my-list"> {{ movie.user }}'s List</b></a>
+   </div>
    {% endfor %}
 </div>
+
    <!-- Page navigation -->
    <br>
+   <!-- Pagination -->
    <nav aria-label="Page">
       <ul class="pagination justify-content-center">
          {% if page_obj.has_previous %}
