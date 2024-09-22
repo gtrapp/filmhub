@@ -7,7 +7,7 @@ body {
     background-color: #212529 !important;
     line-height: 1.25rem !important;
     color: white;
-    padding-bottom: 15%;
+    /* padding-bottom: 15%; */
 }
     
 
@@ -26,10 +26,6 @@ body.homepage {
     background-position: center;
 }
 
-.user-name {
-    text-transform: capitalize;
-}
-
 
 /* Layout.html */
 /* Search field */
@@ -45,8 +41,18 @@ body.homepage {
     text-align: center;
     padding: 1% 5% 0 0;
 }
-
-
+/* Navbar */
+.navbar-nav {
+    margin-top: 10px;
+}
+.nav-link.top-rated {
+    margin-right: 3.0rem;
+    color: rgb(255, 255, 255) !important;
+}
+.user-name {
+    text-transform: capitalize;
+    margin-right: 2rem;
+}
 
 
 
