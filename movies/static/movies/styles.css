@@ -49,12 +49,17 @@ body.homepage {
     margin-right: 3.0rem;
     color: rgb(255, 255, 255) !important;
 }
-.user-name {
+.nav-link.user-name {
     text-transform: capitalize;
     margin-right: 2rem;
+    color: rgb(255, 255, 255) !important;
 }
-
-
+.nav-link:hover {
+    color: red !important;
+}
+.nav-link.user-name:hover {
+    color: red !important;
+}
 
 
 /* Cards */
