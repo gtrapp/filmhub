@@ -358,4 +358,11 @@ a.text-muted {
     bottom: 8px;
     left: 43px;
 /* LIKES heart icon */
+}
+
+
+/* PAGINATION*/
+.pagination {
+    margin-bottom: 5rem;
+}
 

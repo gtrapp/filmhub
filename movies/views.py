@@ -74,11 +74,6 @@ def search(request):
             )
 
 
-def watchlist(request, user_id):
-    current_user = user_id
-    my_list = current_user._movie_mylist.all()
-    return render(request, "movies/profile.html", {"movies": my_list})
-
 
 def check_imdbid_and_user(user_id, imdb_id):
     try:
@@ -207,14 +202,6 @@ def like_comment(request, comment_id):
 
 
 
-def my_list(request, id):
-    # Listing.objects.get(pk=id)
-    movie_instance = Movie.objects.get(pk=id)
-    current_user = request.user
-    movie_instance.my_list.add(current_user)
-    return HttpResponseRedirect(reverse("_details", args=(movie_instance.id,)))
-
-
 # TODO FIX THIS TO ACCEPT NEW MOVIES to my_list
 def add_mylist(request):
     imdb_id = request.POST["imdb_id"] # tt0077889
@@ -275,6 +262,8 @@ def add_mylist(request):
 
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,)))
 
+
+
 # TODO fix this logic
 def remove_mylist(request):
     print("HELLOOOOOOOOO")
@@ -289,11 +278,6 @@ def remove_mylist(request):
     return HttpResponseRedirect(reverse("_details", args=(imdb_id,))) 
 
 
-
-def mylist(request, id):
-    print("Debug - mylist: ", id)
-    # def add_mylist(request):
-    #     return render(request, "movies/add_mylist.html")
 
 
 # TODO
