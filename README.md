@@ -34,7 +34,7 @@ To navigate Title Vital Hub, use the app's NavBar. All pages, except the index p
 
 Title Vital Hub adheres to the standard [Django file structure](https://django-project-skeleton.readthedocs.io/en/latest/structure.html). Python code corresponding to each of the app's 'views' (both visible and API) is stored in the file `views.py`. The site's various URL routes are defined in `urls.py`.  The app's database is organized into four key tables (User, Movie, Follow and Comment) which are defined in `models.py`, with the data stored in a `db.sqlite3` database file.
 
-The website consists of eight HTML pages, most of which extend from a base layout file (`layout.html`) using Django's templating engine. These templates are located in the `templates` directory. The default route, `index.html` features a graphic splash page while `search.html` enables users to search for titles by keyword. `details.html` provides comprehensive information on specific titles, along with options to bookmark, comment on, and like user comments. `profile.html` displays a user's bookmarked titles and `top-rated.html` showcases the highest-rated titles from user lists, filtered by IMDB ratings.
+The website consists of eight HTML pages, most of which extend from a base layout file (`layout.html`) using Django's templating engine. These templates are located in the `templates` directory. The default route, `index.html`, features a graphic splash page while `search.html` enables users to search for titles by keyword. `details.html` provides comprehensive information on specific titles, along with options to bookmark, comment on, and like user comments. `profile.html` displays a user's bookmarked titles and `top-rated.html` showcases the highest-rated titles from user lists, filtered by IMDB ratings.
 
 The `static` folder is divided into two subfolders: `media`, which holds the app’s images, and `js`, where the JavaScript files are stored. Most JavaScript files are page-specific. The custom styling for Title Vital Hub is managed in `style.css`.
 
@@ -63,8 +63,6 @@ In line with CS50W's grading requirements, Title Vital Hub is mobile-responsive,
 
 
 ### About Me
-
-Hi, I'm George Trapp! I'm a passionate and creative Full Stack Developer with extensive experience in web and software development. I've had the opportunity to work across industries—from health and finance to education. Outside of coding, I have a deep background in music as a cellist, holding a Bachelor of Music from The Juilliard School. 
 
 Hello, I’m George Trapp! I’m a passionate and creative Full Stack Developer with extensive experience in web and software development across diverse industries, including health, finance, and education. In addition to my coding expertise, I have a rich musical background as a cellist, holding a Bachelor of Music from The Juilliard School.
 
