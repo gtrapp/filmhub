@@ -4,7 +4,7 @@ Vital Title Hub is designed and implemented as my final project for Harvard's [C
 
 <img width="1294" alt="vital_title_hub" src="https://github.com/user-attachments/assets/2c7eebb5-d166-4c73-9827-410ba7a5f1f6">
 
-[![Image of Title Vital Hub](image.png)](https://youtube.com)
+[![Image of Title Vital Hub]([image.png](https://github.com/user-attachments/assets/2c7eebb5-d166-4c73-9827-410ba7a5f1f6))](https://youtube.com)
 
 ### What is Vital Title Hub?
 
