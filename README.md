@@ -26,7 +26,7 @@ python3 manage.py runserver
 
 # In browser, navigate to generated URL (typically local host http://127.0.0.1:8000/)
 ```
-To navigate Title Vital Hub, use the app's NavBar. All pages (except the app's index page) requires the user to have an account with the application and be signed in (go to **Register** / **Log In)**. Title Vital Hub's default **Index** page displays a splash screen movie graphic image. The **Search Field**  allows users to search for titles, view details, bookmark titles, comment on them, and like other users' comments. **Top Rated** displays the user's bookmarked lists and provides links to other users' lists.  **Profile** page shows the logged-in user's movie list along with the number of followers and users they are following.
+To navigate Title Vital Hub, use the app's NavBar. All pages, except the index page, require users to have an account and be signed in (visit **Register** or **Log In)**. The default **Index** page features a splash screen with a movie graphic. The **Search Field** allows users to search for titles by keyword. Clicking on a movie poster takes users to the **Details** page, where they can view full information, bookmark titles, comment on them, and like other users' comments. **Top Rated** section displays the user’s bookmarked lists and links to other users' lists. Finally, the **Profile** page shows the logged-in user's movie list along with their number of followers and users they are following
 
 ## Backend
 
