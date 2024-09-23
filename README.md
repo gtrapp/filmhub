@@ -2,6 +2,7 @@
 
 Vital Title Hub is designed and implemented as my final project for Harvard's [CS50 Web Programming with Python and JavaScript](https://cs50.harvard.edu/web/2020/) course. Vital Title Hub is a web application written primarily in Python and JavaScript using the Django framework.
 
+<img width="1294" alt="vital_title_hub" src="https://github.com/user-attachments/assets/2c7eebb5-d166-4c73-9827-410ba7a5f1f6">
 
 [![Image of Title Vital Hub](image.png)](https://youtube.com)
 
