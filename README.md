@@ -6,7 +6,7 @@ Vital Title Hub was developed as my final project for Harvard's [CS50 Web Progra
 
 ### What is Vital Title Hub?
 
-Using the The Open Movie Database - [OMDb API](https://www.omdbapi.com/), Title Vital Hub is a social network for cinephiles that allows users to create lists of their favorite movies, follow other movie enthusiasts, comment on movie titles, and like comments from other users.
+Using the The Open Movie Database - [OMDb API](https://www.omdbapi.com/), Title Vital Hub is movie and TV show database for cinephiles that allows users to create lists of their favorite movies, follow other movie enthusiasts, comment on movie titles, and like comments from other users.
 
 Title Vital Hub allows users to search and view movie and TV show titles, save their favorite titles to personal lists, comment on bookmarked movies, like other users' comments, and follow fellow cinephiles. It also provides essential user management features, enabling visitors to create an account, log in, and log out of the application.
 
@@ -59,6 +59,7 @@ In line with CS50W's grading requirements, Title Vital Hub is mobile-responsive,
 ### Acknowledgements
 
 - The Open Movie Database [OMDb API] - [LINK](https://www.omdbapi.com//)
+- Boris Farias - video favicon [LINK](https://www.flaticon.com/free-icon/video_10918892?term=movie+search&page=2&position=9&origin=search&related_id=10918892/)
 - CS50’s Web Programming with Python and JavaScript - [LINK](https://cs50.harvard.edu/web/2020/)
 
 
