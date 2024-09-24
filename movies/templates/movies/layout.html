@@ -52,7 +52,7 @@
               <b><a class="nav-link top-rated" href="{% url '_top_rated' %}">Top Rated</a></b>
             </li>
             <li class="nav-item"></li>
-              <form class="search-form" action="{% url 'search' %}" method="post">
+              <form class="search-form" action="{% url 'search' %}"  autocomplete="off" method="post">
                 {% csrf_token %}
                 <div class="input-group mb-2">
                   <input type="text" name="keyword" class="form-control" placeholder="enter keyword" aria-label="enter keyword"

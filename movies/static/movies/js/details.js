@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
    const likeButton = document.getElementById("like-button");
    const testButton = document.getElementById("testbutton");
 
-   
+
    if (un_bookmarked != null) {
       console.log("un_bookmarked exists");
       un_bookmarked.addEventListener("click", () => {
@@ -26,18 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log("bookmark exists");
    }
 
-   // commentForm.addEventListener("keypress", function (event) {
-   //    // Check if the keyCode for "Enter" (13) was pressed
-   //    if (event.keyCode === 13) {
-   //       event.preventDefault();  // Prevent the default form submission if needed
-   //       commentForm.submit();  // Submit the form
-   //    }
-   //    window.scrollTo({
-   //       top: document.body.scrollHeight,
-   //       behavior: 'smooth' // Smooth scrolling
-   //    });
-   // });
-
 
    commentForm.addEventListener("keypress", function (event) {
       // Check if the keyCode for "Enter" (13) was pressed
@@ -48,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             behavior: 'smooth'  // Smooth scrolling
          });
          // Optionally add a slight delay before submitting to allow the scroll to finish
-         setTimeout(function() {
+         setTimeout(function () {
             commentForm.submit();  // Submit the form after scroll
          }, 300);  // Adjust the delay based on the scroll duration
       }
@@ -60,30 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const heart = likeButton;
       likeButton.classList.toggle("btn-red-heart");
    });
-   
 
 
-   testButton.addEventListener("click", function (event) {
-      testHandler();
-   });
-
-   function testHandler() {
-      console.log("test handler");
-   }
-
-
-   // // Store the scroll position on unload
-   // window.addEventListener('beforeunload', function () {
-   //    localStorage.setItem('scrollPosition', window.scrollY);
-   // });
-
-   // // Restore the scroll position on load
-   // window.addEventListener('load', function () {
-   //    if (localStorage.getItem('scrollPosition')) {
-   //       window.scrollTo(0, localStorage.getItem('scrollPosition'));
-   //       localStorage.removeItem('scrollPosition');
-   //    }
-   // });
 
 
    window.addEventListener("beforeunload", function () {
@@ -99,25 +65,14 @@ document.addEventListener('DOMContentLoaded', function () {
    });
 
 
+   testButton.addEventListener("click", function (event) {
+      testHandler();
+   });
+
+   function testHandler() {
+      console.log("test handler");
+   }
+
 
 });
 
-
-// function like(post) {
-//    // Get current number of likes
-//    var likes = post.querySelector("#number").innerHTML
-
-//    // Increment / deincrement number of likes and change colour of button
-//    if (post.classList.contains("btn-secondary")) {
-
-//       post.className = "btn btn-danger float-left";
-//       likes++
-//       post.querySelector("#number").innerHTML = likes
-
-//    } else {
-
-//       post.className = "btn btn-secondary float-left";
-//       likes--
-//       post.querySelector("#number").innerHTML = likes
-//    }
-// }
