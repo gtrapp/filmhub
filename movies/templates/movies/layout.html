@@ -54,6 +54,7 @@
           </ul> -->
 
           <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
             <li class="nav-item"></li>
               <b><a class="nav-link top-rated" href="{% url '_top_rated' %}">Top Rated</a></b>
             </li>
@@ -67,7 +68,6 @@
                 </div>
               </form>
             </li>
-            {% if user.is_authenticated %}
             <li class="nav-item">
               <!-- <h1 style="color: white">{{ user.id }}</h1> -->
               <b><a class="nav-link user-name" href="{% url '_profile' user_id=user.id %}">Hi, {{ user.username }}</a></b>
