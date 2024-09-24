@@ -6,7 +6,7 @@ Vital Title Hub was developed as my final project for Harvard's [CS50 Web Progra
 
 ### What is Vital Title Hub?
 
-Powered by the The Open Movie Database - [OMDb API](https://www.omdbapi.com/), Title Vital Hub is a comprehensive movie and TV show database designed for film buffs, movie lovers, and cinephiles alike. It allows users to search and view movie and TV show titles, create personalized lists, follow other movie enthusiasts, and engage with content through comments and likes. It also includes essential user management features, such as account creation, login, and logout functionality.
+Powered by the [OMDb API](https://www.omdbapi.com/), Title Vital Hub is a comprehensive movie and TV show database designed for film buffs, movie lovers, and cinephiles alike. It allows users to search and view movie and TV show titles, create personalized lists, follow other movie enthusiasts, and engage with content through comments and likes. It also includes essential user management features, such as account creation, login, and logout functionality.
 
 Watch a video walkthrough of Vital Title Hub [HERE](https://www.youtube.com/@george-trapp)
 
@@ -24,7 +24,7 @@ python3 manage.py runserver
 
 # In browser, navigate to generated URL (typically local host http://127.0.0.1:8000/)
 ```
-To navigate Title Vital Hub, use the app's NavBar. All pages, except the index page, require users to have an account and be signed in (visit **Register** or **Log In)**. The default **Index** page features a splash screen with a movie graphic. The **Search Field** allows users to search for titles by keyword. Clicking on a movie poster takes users to the **Details** page, where they can view full information, bookmark titles, comment on them, and like other users' comments. **Top Rated** section displays the user’s bookmarked lists and links to other users' lists. Finally, the **Profile** page shows the logged-in user's movie list along with their number of followers and users they are following.
+To navigate Title Vital Hub, use the app's NavBar. All pages, except the index page, require users to have an account and be signed in (visit **Register** or **Log In)**. The app's default **Index** page kicks off featuring a splash screen collage of movie posters. The **Search Field** allows users to search for titles by keyword. Clicking on a movie poster takes users to the **Details** page, where they can view full information, bookmark titles, comment on them, and like other users' comments. **Top Rated** section displays the user’s bookmarked lists and links to other users' lists. Finally, the **Profile** page shows the logged-in user's movie list along with their number of followers and users they are following.
 
 ## Backend
 
