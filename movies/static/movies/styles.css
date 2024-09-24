@@ -60,6 +60,11 @@ body.homepage {
 .nav-link.user-name:hover {
     color: red !important;
 }
+footer.footer.py-3 .col.footer-link {
+    padding-top: 5px !important;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+}
 
 
 /* Cards */
@@ -285,7 +290,9 @@ a.text-muted {
     left: 7px;
     position: absolute;
 }
-
+.btn-warning.imdb {
+    color: black !important;
+}
 
 
 /* COMMENTS */
