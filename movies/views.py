@@ -61,7 +61,6 @@ def search(request):
                     "type": movie["Type"],
                 }
             )
-
             results.append(title)
 
         if not movies:
@@ -86,7 +85,8 @@ def check_imdbid_and_user(user_id, imdb_id):
     except Movie.DoesNotExist:
         return False
 
-# TODO
+
+
 def details(request, imdb_id):
 
     # Get movie details
@@ -155,6 +155,7 @@ def details(request, imdb_id):
     return render(request, "movies/details.html", {"movie": title})
 
 
+
 def like(request, movie_id):
     # Get user and relevant movie
     user = User.objects.get(id=request.user.id)
@@ -169,6 +170,7 @@ def like(request, movie_id):
     add_movie.save()
 
     return JsonResponse({"message": "Post liked / disliked"})
+
 
 
 def add_comment(request, id):
@@ -188,7 +190,6 @@ def add_comment(request, id):
 
 
 
-# TODO: LIKES
 @login_required
 def like_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
@@ -202,7 +203,6 @@ def like_comment(request, comment_id):
 
 
 
-# TODO FIX THIS TO ACCEPT NEW MOVIES to my_list
 def add_mylist(request):
     imdb_id = request.POST["imdb_id"] # tt0077889
     print("MR IMDB-imdb_id: ", imdb_id)
@@ -264,7 +264,6 @@ def add_mylist(request):
 
 
 
-# TODO fix this logic
 def remove_mylist(request):
     print("HELLOOOOOOOOO")
     imdb_id = request.POST["imdb_id"] # tt0077889
@@ -279,8 +278,6 @@ def remove_mylist(request):
 
 
 
-
-# TODO
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)
     print("Debug | user: ", user)
@@ -315,6 +312,7 @@ def profile(request, user_id):
         })
 
 
+
 def following(request):
     current_user = User.objects.get(pk=request.user.id)
     following_people = Follow.objects.filter(user=current_user)
@@ -337,6 +335,7 @@ def following(request):
     })
 
 
+
 def follow(request):
     user_follow = request.POST['user_follow']
     current_user = User.objects.get(pk=request.user.id)
@@ -355,6 +354,7 @@ def unfollow(request):
     f.delete()
     user_id = user_follow_data.id
     return HttpResponseRedirect(reverse(profile, kwargs={'user_id': user_id})) 
+
 
 
 # @csrf_exempt
@@ -377,6 +377,7 @@ def edit(request, post_id):
     return JsonResponse(
         {"message": "Movie successfully edited", "new_text": new_content}, status=201
     )
+
 
 
 # Log user in
@@ -407,6 +408,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 
 # Register a new user

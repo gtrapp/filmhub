@@ -10,7 +10,6 @@ body {
     /* padding-bottom: 15%; */
 }
     
-
 .bgColor {
     background-color: #212529 !important;
 }
@@ -18,14 +17,12 @@ body {
 body.homepage {
     display: block;
     height: 100%;
-    /* background-color: #212529; */
     background-image: url("../movies/media/bg.png");
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-attachment: fixed;
     background-position: center;
 }
-
 
 /* Layout.html */
 /* Search field */
