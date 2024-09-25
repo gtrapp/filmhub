@@ -8,7 +8,7 @@ Flikrpikr was developed as my final project for Harvard's [CS50 Web Programming 
 
 Powered by the [OMDb API](https://www.omdbapi.com/), Flikrpikr is a comprehensive movie and TV show database designed for film buffs, movie lovers, and cinephiles alike. It allows users to search and view movie and TV show titles, create personalized lists, follow other movie enthusiasts, and engage with content through comments and likes. It also includes essential user management features, such as account creation, login, and logout functionality.
 
-Watch a video walkthrough of Flikrpikr [HERE](https://www.youtube.com/@george-trapp)
+Watch a video walkthrough of Flikrpikr [HERE](https://youtu.be/_1kXKrSSxNw)
 
 ### Quickstart
 
